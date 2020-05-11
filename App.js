@@ -1,5 +1,5 @@
 /*This is an Example of Grid View in React Native*/
-import React, { Component } from 'react';
+import { Component } from 'react';
 //import rect in our project
 import {
   StyleSheet,
@@ -9,7 +9,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import TreeCircle from './src/TreeCircle';
 //import all the components we will need
 
