@@ -14,7 +14,8 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import TreeCircle from "./src/TreeCircle";
-import treesData from "./src/TreesData.json";
+// import treesData from "./src/TreesData.json";
+import treesData from "./csv_converstion_script/treesJSON.json";
 import TreeGrid from "./src/TreeGrid";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: "white",
-    marginHorizontal: 20,
+    // marginHorizontal: 10,
   },
 });
 

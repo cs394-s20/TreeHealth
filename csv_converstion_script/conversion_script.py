@@ -24,7 +24,8 @@ for line in f:
     currentDataJSON['heatRatio'] = currentData[1]
     currentDataJSON['VPD'] = currentData[2]
     currentDataJSON['ambientTemp'] = currentData[3]
-    currentDataJSON['sapFlow'] = (k / x) * math.log(float(currentData[1])) * 3600
+    currentDataJSON['sapFlow'] = (
+        k / x) * math.log(float(currentData[1])) * 3600
     currentTreeData.append(currentDataJSON)
 currentTree['firstDate'] = firstDate
 currentTree['data'] = currentTreeData
@@ -32,7 +33,7 @@ listOfTrees.append(currentTree)
 
 f = open("UnhealthyDataV2.csv", "r")
 currentTree = {}
-currentTree['name'] = 'HealthyDataV2'
+currentTree['name'] = 'UnhealthyDataV2'
 currentTreeData = []
 skipFirst = True
 firstDate = ''
@@ -48,17 +49,18 @@ for line in f:
     currentDataJSON['heatRatio'] = currentData[1]
     currentDataJSON['VPD'] = currentData[2]
     currentDataJSON['ambientTemp'] = currentData[3]
-    currentDataJSON['sapFlow'] = (k / x) * math.log(float(currentData[1])) * 3600
+    currentDataJSON['sapFlow'] = (
+        k / x) * math.log(float(currentData[1])) * 3600
     currentTreeData.append(currentDataJSON)
 
 currentTree['firstDate'] = firstDate
 currentTree['data'] = currentTreeData
 listOfTrees.append(currentTree)
 
-print (listOfTrees)
+print(listOfTrees)
 finalJSONObject = {}
 finalJSONObject['trees'] = listOfTrees
 
-f = open("treesJSON.json", "a")
+f = open("treesJSON.json", "w")
 f.write(json.dumps(finalJSONObject))
 f.close()
