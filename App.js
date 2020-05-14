@@ -1,8 +1,8 @@
 /*This is an Example of Grid View in React Native*/
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 //import rect in our project
 import {
-  Text, 
+  // Text, 
   Button, 
   StyleSheet,
   View,
@@ -18,14 +18,15 @@ import TreeGrid from './src/TreeGrid';
 import { createStackNavigator } from "@react-navigation/stack"; 
 import { NavigationContainer } from "@react-navigation/native";
 import TreeChart from './src/TreeChart'
+import { Text } from 'react-native-elements';
 
 //import all the components we will need
 
 
-function Dashboard() {
+function Dashboard({navigation}) {
   return (
     <View style={styles.MainContainer}>
-      <TreeGrid treesData={treesData}/>
+      <TreeGrid treesData={treesData} navigation={navigation}/>
     </View>
   );
 }
@@ -33,27 +34,36 @@ function Dashboard() {
 function HomeScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Dashboard />
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
+      <Dashboard navigation={navigation}/>
     </View>
   );
 }
 
-function DetailsScreen({ navigation }) {
+function DetailsScreen({ route, navigation }) {
+  const {treedata} = route.params;
+  console.log(treedata)
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <React.Fragment>
+    <View style={{  alignItems: 'center', justifyContent: 'center', marginTop:10 }}>
+    <Text h3 >{treedata.name}</Text>
+    <View style={treedata.HI > 5 ? styles.healthy_circle : styles.unhealthy_circle}>
+      <Text style={styles.title}> Health Index (HI) </Text>
+      <Text style={styles.name}> {treedata.HI} </Text>
+    </View>
+    </View>
+
+    <View style={{flexDirection: "row", alignItems: 'center', justifyContent: 'center',marginBottom:20}}>
+    <Text style={{textAlign: "left",marginRight:10}}>SAP FLOW: {treedata.SAP}</Text>
+    <Text style={{ textAlign: "right" }}>VPD: {treedata.VPD}</Text>
+    </View>
+
+    <View style={{  alignItems: 'center', justifyContent: 'center' }}>
       <Text> Sap Flow (cm/hr) </Text>
       <TreeChart data={sapflow_data}/>
       <Text> VPD (kPa)</Text>
       <TreeChart data={vpd_data}/>
-      <Button
-        title="Return to Home"
-        onPress={() => navigation.navigate('TreeHealth')}
-      />
     </View>
+    </React.Fragment>
   );
 }
 
@@ -78,7 +88,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="TreeHealth" component={HomeScreen} />
-          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen name="TreeSummary" component={DetailsScreen} />
         </Stack.Navigator>
       </NavigationContainer>
   );
@@ -96,6 +106,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 100,
   },
+  unhealthy_circle: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    margin: 10,
+    backgroundColor: 'red',
+    justifyContent: 'center', 
+   },
+   healthy_circle: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    margin: 10,
+    backgroundColor: 'green',
+    justifyContent: 'center', 
+   },
+   name: {
+    textAlign: "center",
+    fontSize: 25
+   }, 
+    title: {
+    textAlign: "center",
+    fontSize: 10
+   }
 });
 
 

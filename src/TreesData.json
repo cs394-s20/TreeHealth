@@ -4,13 +4,13 @@
             "SAP": 8,
             "VPD": 2,
             "HI":  10, 
-            "name": "Suzy"
+            "name": "Balsam Fir"
         },
         "tree_unhealthy" : {
             "SAP": 8,
             "VPD": 5,
             "HI":  2, 
-            "name": "Jonny"
+            "name": "Norway Spruce"
         }
     }
 }

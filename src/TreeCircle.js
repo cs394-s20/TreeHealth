@@ -1,9 +1,9 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View,TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: "#fff",
+      // backgroundColor: "#fff",
       alignItems: "center",
       justifyContent: "center",
     },
@@ -33,14 +33,18 @@ const styles = StyleSheet.create({
      }
   });  
 
-const TreeCircle = ({treeData}) => {    
+const TreeCircle = ({treeData,navigation}) => {    
   return (
-    <View style={styles.container}>
-        <View style={treeData.HI > 5 ? styles.healthy_circle : styles.unhealthy_circle}>
+    <View style={styles.container} >
+        <TouchableOpacity 
+          style={treeData.HI > 5 ? styles.healthy_circle : styles.unhealthy_circle} 
+          onPress={() => navigation.navigate('TreeSummary',{
+            treedata: treeData,
+          })}>
           <Text style={styles.title}> Health Index (HI) </Text>
           <Text style={styles.name}> {treeData.HI} </Text>
-        </View>
-        <Text style={styles.name}>{treeData.name}</Text>
+        </TouchableOpacity>
+        <Text style={styles.name} onPress={() => navigation.navigate('Details')}>{treeData.name}</Text>
     </View>
   );
 }

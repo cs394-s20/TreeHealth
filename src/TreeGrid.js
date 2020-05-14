@@ -15,9 +15,9 @@ import treesData from './TreesData.json';
 
 //import all the components we will need
 
-const TreeGrid = ({treesData}) => {
-  console.log(treesData)
-  console.log(Object.values(treesData))
+const TreeGrid = ({treesData,navigation}) => {
+  // console.log(treesData)
+  // console.log(Object.values(treesData))
   const [items, setItems] = useState(Object.values(treesData.trees));
 
 
@@ -26,7 +26,7 @@ const TreeGrid = ({treesData}) => {
         columnWrapperStyle={{justifyContent:'center'}}
         data={items}
         renderItem={({ item }) => (
-          <TreeCircle treeData={ item }></TreeCircle>
+          <TreeCircle treeData={ item } navigation={navigation}></TreeCircle>
         )}
         //Setting the number of column
         numColumns={2}
