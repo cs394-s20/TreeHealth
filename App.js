@@ -41,55 +41,6 @@ function HomeScreen({ navigation }) {
   );
 }
 
-function DetailsScreen({ route, navigation }) {
-  const { treedata } = route.params;
-  console.log(treedata);
-  return (
-    <ScrollView style={styles.scrollView}>
-      <React.Fragment>
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: 10,
-          }}
-        >
-          <Text h3>{treedata.name}</Text>
-          <View
-            style={
-              treedata.HI > 5 ? styles.healthy_circle : styles.unhealthy_circle
-            }
-          >
-            <Text style={styles.title}> Health Index (HI) </Text>
-            <Text style={styles.name}> {treedata.HI} </Text>
-          </View>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: 20,
-          }}
-        >
-          <Text style={{ textAlign: "left", marginRight: 10 }}>
-            SAP FLOW: {treedata.SAP}
-          </Text>
-          <Text style={{ textAlign: "right" }}>VPD: {treedata.VPD}</Text>
-        </View>
-
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Text> Sap Flow (cm/hr) </Text>
-          <TreeChart data={sapflow_data} />
-          <Text> VPD (kPa)</Text>
-          <TreeChart data={vpd_data} />
-        </View>
-      </React.Fragment>
-    </ScrollView>
-  );
-}
-
 const vpd_data = {
   labels: ["January", "February", "March", "April", "May", "June"],
   datasets: [
@@ -107,6 +58,81 @@ const sapflow_data = {
     },
   ],
 };
+
+const constructData = (treeData, datatype) => {
+  //console.log(treeData)
+  let labels = [];
+  let datasets = [];
+
+  for(let i = 0; i < 14; i++){
+    labels.push(i);
+    //labels.push(treeData["data"][i]["date"]);
+    datasets.push(treeData["data"][i][datatype]);
+  }
+
+  let graphData = {};
+  graphData["labels"] = labels;
+  graphData["datasets"] = [{ data: datasets}];
+
+  //console.log(graphData)
+  return graphData
+}
+
+function DetailsScreen({ route, navigation }) {
+  const { treedata } = route.params;
+  console.log(treedata);
+
+  const sapFlowData = constructData(treedata, "sapFlow");
+  const VPDData = constructData(treedata, "VPD");
+
+  return (
+    <ScrollView style={styles.scrollView}>
+      <React.Fragment>
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 10,
+          }}
+        >
+          <Text h3>{treedata.name}</Text>
+          <View
+            style={
+              treedata.data[treedata.data.length - 1].sapFlow > 5 ? styles.healthy_circle : styles.unhealthy_circle
+            }
+          >
+            <Text style={styles.title}> Health Index (HI) </Text>
+            <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].sapFlow).toFixed(2)} </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 20,
+          }}
+        >
+          <Text style={{ textAlign: "left", marginRight: 10 }}>
+            SAP FLOW: {(treedata.data[treedata.data.length - 1].sapFlow).toFixed(2)}
+          </Text>
+          <Text style={{ textAlign: "right" }}>VPD: {treedata.data[treedata.data.length - 1].VPD}</Text>
+        </View>
+
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <Text> Sap Flow (cm/hr) </Text>
+          <TreeChart data={sapFlowData} />
+          <Text> VPD (kPa)</Text>
+          <TreeChart data={VPDData} />
+        </View>
+      </React.Fragment>
+    </ScrollView>
+  );
+}
+
+
+
 
 const Stack = createStackNavigator();
 

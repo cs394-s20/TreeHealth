@@ -19,7 +19,6 @@ const chartConfig = {
   color: (opacity = 1) => `rgba(0, 0,0, ${opacity})`
 }
 
-
 const TreeChart = ({data}) => {
 	return (
 		<View>
