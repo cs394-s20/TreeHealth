@@ -22,14 +22,15 @@ const chartConfig = {
 
 const TreeChart = ({ data }) => {
   return (
-    <View>
+    <View style={{ marginBottom: 0 }}>
       <LineChart
         data={data}
         width={screenWidth}
-        height={500}
+        height={200}
         chartConfig={chartConfig}
         bezier
-        verticalLabelRotation={90}
+        // verticalLabelRotation={90}
+        style={{ marginBottom: -20 }}
       />
     </View>
   );

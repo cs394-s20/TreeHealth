@@ -19,7 +19,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import TreeChart from "./src/TreeChart";
 import { Text, ButtonGroup } from "react-native-elements";
 
-
 function Dashboard({ navigation }) {
   return (
     <View style={styles.MainContainer}>
@@ -36,10 +35,11 @@ function HomeScreen({ navigation }) {
   );
 }
 
-// Updated
 const constructData = (treeData, datatype, viewtype) => {
   let labels = [];
   let datasets = [];
+  let startDate = "";
+  let endDate = "";
 
   // Week View
   if (viewtype === 0) {
@@ -48,8 +48,15 @@ const constructData = (treeData, datatype, viewtype) => {
       i < treeData["data"].length;
       i++
     ) {
-      labels.push(treeData["data"][i]["date"]);
+      if (i === treeData["data"].length - 8) {
+        startDate = treeData["data"][i]["date"];
+      }
+      if (i === treeData["data"].length - 1) {
+        endDate = treeData["data"][i]["date"];
+      }
+      // labels.push(treeData["data"][i]["date"]);
       datasets.push(treeData["data"][i][datatype]);
+      labels.push("");
     }
   }
 
@@ -60,21 +67,39 @@ const constructData = (treeData, datatype, viewtype) => {
       i < treeData["data"].length;
       i++
     ) {
-      datasets.push(treeData["data"][i][datatype]);
-      if (i % 2 === 0) {
-        labels.push(treeData["data"][i]["date"]);
+      if (i === treeData["data"].length - 30) {
+        startDate = treeData["data"][i]["date"];
       }
+      if (i === treeData["data"].length - 1) {
+        endDate = treeData["data"][i]["date"];
+      }
+      datasets.push(treeData["data"][i][datatype]);
+      labels.push("");
+      // if (i % 2 === 0) {
+      //   labels.push(treeData["data"][i]["date"]);
+      // }
     }
   }
 
   // Year View
   if (viewtype === 2) {
+    let num_days = treeData["data"].length;
+    if (treeData["data"].length >= 365) {
+      num_days = 365;
+    }
     for (
-      let i = treeData["data"].length - 8;
+      let i = treeData["data"].length - num_days;
       i < treeData["data"].length;
       i++
     ) {
-      labels.push(treeData["data"][i]["date"]);
+      if (i === treeData["data"].length - num_days) {
+        startDate = treeData["data"][i]["date"];
+      }
+      if (i === treeData["data"].length - 1) {
+        endDate = treeData["data"][i]["date"];
+      }
+      // labels.push(treeData["data"][i]["date"]);
+      labels.push("");
       datasets.push(treeData["data"][i][datatype]);
     }
   }
@@ -83,12 +108,12 @@ const constructData = (treeData, datatype, viewtype) => {
   graphData["labels"] = labels;
 
   let datasets2 = [];
-  for (let i = 0; i < datasets.length; i ++){
+  for (let i = 0; i < datasets.length; i++) {
     datasets2.push(i);
   }
-  graphData["datasets"] = [{ data: datasets}];
+  graphData["datasets"] = [{ data: datasets }];
 
-  return graphData;
+  return [graphData, startDate, endDate];
 };
 
 function DetailsScreen({ route, navigation }) {
@@ -96,8 +121,16 @@ function DetailsScreen({ route, navigation }) {
 
   const { treedata } = route.params;
 
-  const sapFlowData = constructData(treedata, "scaledSapFlow", selectedIndex);
-  const VPDData = constructData(treedata, "scaledVPD", selectedIndex);
+  const [sapFlowData, SAPstartDate, SAPendDate] = constructData(
+    treedata,
+    "scaledSapFlow",
+    selectedIndex
+  );
+  const [VPDData, VPDstartDate, VPDendDate] = constructData(
+    treedata,
+    "scaledVPD",
+    selectedIndex
+  );
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -112,7 +145,11 @@ function DetailsScreen({ route, navigation }) {
           <Text h3>{treedata.name}</Text>
           <View
             style={
-              (treedata.health == 0) ? styles.healthy_circle : (treedata.health == 1 ? styles.warning_circle : styles.unhealthy_circle)
+              treedata.health == 0
+                ? styles.healthy_circle
+                : treedata.health == 1
+                ? styles.warning_circle
+                : styles.unhealthy_circle
             }
           >
             {/*<Text style={styles.title}> Health Index (HI) </Text>
@@ -143,8 +180,14 @@ function DetailsScreen({ route, navigation }) {
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text> Sap Flow (cm/hr) </Text>
           <TreeChart data={sapFlowData} />
+          <Text style={{ marginBottom: 40, marginTop: 0 }}>
+            {SAPstartDate} - {SAPendDate}
+          </Text>
           <Text> VPD (kPa)</Text>
           <TreeChart data={VPDData} />
+          <Text style={{ marginBottom: 40, marginTop: 0 }}>
+            {VPDstartDate} - {VPDendDate}
+          </Text>
         </View>
       </React.Fragment>
     </ScrollView>
