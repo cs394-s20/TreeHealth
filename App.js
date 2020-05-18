@@ -21,7 +21,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { NavigationContainer } from "@react-navigation/native";
 import TreeChart from "./src/TreeChart";
-import { Text } from "react-native-elements";
+import { Text, ButtonGroup } from "react-native-elements";
 
 //import all the components we will need
 
@@ -65,8 +65,8 @@ const constructData = (treeData, datatype) => {
   let datasets = [];
 
   for(let i = 0; i < 14; i++){
-    labels.push(i);
-    //labels.push(treeData["data"][i]["date"]);
+    // labels.push(i);
+    labels.push(treeData["data"][i]["date"]);
     datasets.push(treeData["data"][i][datatype]);
   }
 
@@ -105,7 +105,7 @@ function DetailsScreen({ route, navigation }) {
             <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].sapFlow).toFixed(2)} </Text>
           </View>
         </View>
-
+        
         <View
           style={{
             flexDirection: "row",
@@ -119,7 +119,7 @@ function DetailsScreen({ route, navigation }) {
           </Text>
           <Text style={{ textAlign: "right" }}>VPD: {treedata.data[treedata.data.length - 1].VPD}</Text>
         </View>
-
+        <Toggle/>
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text> Sap Flow (cm/hr) </Text>
           <TreeChart data={sapFlowData} />
@@ -131,8 +131,22 @@ function DetailsScreen({ route, navigation }) {
   );
 }
 
-
-
+const Toggle = () => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  
+  const component1 = () => <Text>Day</Text>
+  const component2 = () => <Text>Week</Text>
+  const component3 = () => <Text>Month</Text>
+  const component4 = () => <Text>Year</Text>
+  const buttons = [{ element: component1 }, { element: component2 }, { element: component3 }, { element: component4 }]
+  return (
+    <ButtonGroup
+      onPress={setSelectedIndex}
+      selectedIndex={selectedIndex}
+      buttons={buttons}
+      containerStyle={{height: 50}} />
+  )
+}
 
 const Stack = createStackNavigator();
 

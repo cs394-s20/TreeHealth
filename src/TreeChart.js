@@ -9,8 +9,9 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import { LineChart } from 'react-native-line-chart'
+import { LineChart,SafeAreaView, ScrollView} from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
+
 const screenWidth = Dimensions.get('window').width
 
 const chartConfig = {
@@ -27,7 +28,8 @@ const TreeChart = ({data}) => {
 			  width={screenWidth}
 			  height={220}
 			  chartConfig={chartConfig}
-			  bezier
+        bezier
+        verticalLabelRotation={90}
 			/>
 		</View>
 	)
