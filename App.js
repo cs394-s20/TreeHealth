@@ -21,7 +21,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { NavigationContainer } from "@react-navigation/native";
 import TreeChart from "./src/TreeChart";
-import { Text } from "react-native-elements";
+import { Text, ButtonGroup } from "react-native-elements";
 
 //import all the components we will need
 
@@ -59,26 +59,65 @@ const sapflow_data = {
   ],
 };
 
-const constructData = (treeData, datatype) => {
+const constructData = (treeData, datatype, viewtype) => {
   //console.log(treeData)
   let labels = [];
   let datasets = [];
 
-  for(let i = 0; i < 14; i++){
-    labels.push(i);
-    //labels.push(treeData["data"][i]["date"]);
-    datasets.push(treeData["data"][i][datatype]);
+  // If we are in week view
+  if (viewtype === 0) {
+    for (
+      let i = treeData["data"].length - 8;
+      i < treeData["data"].length;
+      i++
+    ) {
+      labels.push(treeData["data"][i]["date"]);
+      datasets.push(treeData["data"][i][datatype]);
+    }
   }
+
+  // Month View
+  if (viewtype === 1) {
+    for (
+      let i = treeData["data"].length - 30;
+      i < treeData["data"].length;
+      i++
+    ) {
+      datasets.push(treeData["data"][i][datatype]);
+      if (i % 2 === 0) {
+        labels.push(treeData["data"][i]["date"]);
+      }
+    }
+  }
+
+  if (viewtype === 2) {
+    for (
+      let i = treeData["data"].length - 8;
+      i < treeData["data"].length;
+      i++
+    ) {
+      labels.push(treeData["data"][i]["date"]);
+      datasets.push(treeData["data"][i][datatype]);
+    }
+  }
+
+  // for (let i = 0; i < 14; i++) {
+  //   // labels.push(i);
+  //   labels.push(treeData["data"][i]["date"]);
+  //   datasets.push(treeData["data"][i][datatype]);
+  // }
 
   let graphData = {};
   graphData["labels"] = labels;
-  graphData["datasets"] = [{ data: datasets}];
+  graphData["datasets"] = [{ data: datasets }];
 
   //console.log(graphData)
-  return graphData
-}
+  return graphData;
+};
 
 function DetailsScreen({ route, navigation }) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const { treedata } = route.params;
   console.log(treedata);
 
@@ -115,11 +154,17 @@ function DetailsScreen({ route, navigation }) {
           }}
         >
           <Text style={{ textAlign: "left", marginRight: 10 }}>
-            SAP FLOW: {(treedata.data[treedata.data.length - 1].sapFlow).toFixed(2)}
+            SAP FLOW:{" "}
+            {treedata.data[treedata.data.length - 1].sapFlow.toFixed(2)}
           </Text>
-          <Text style={{ textAlign: "right" }}>VPD: {treedata.data[treedata.data.length - 1].VPD}</Text>
+          <Text style={{ textAlign: "right" }}>
+            VPD: {treedata.data[treedata.data.length - 1].VPD}
+          </Text>
         </View>
-
+        <Toggle
+          selectedIndex={selectedIndex}
+          setSelectedIndex={setSelectedIndex}
+        />
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text> Sap Flow (cm/hr) </Text>
           <TreeChart data={sapFlowData} />
@@ -131,8 +176,24 @@ function DetailsScreen({ route, navigation }) {
   );
 }
 
-
-
+const Toggle = ({ selectedIndex, setSelectedIndex }) => {
+  const component1 = () => <Text>Week</Text>;
+  const component2 = () => <Text>Month</Text>;
+  const component3 = () => <Text>Year</Text>;
+  const buttons = [
+    { element: component1 },
+    { element: component2 },
+    { element: component3 },
+  ];
+  return (
+    <ButtonGroup
+      onPress={setSelectedIndex}
+      selectedIndex={selectedIndex}
+      buttons={buttons}
+      containerStyle={{ height: 50 }}
+    />
+  );
+};
 
 const Stack = createStackNavigator();
 
