@@ -18,6 +18,12 @@ const chartConfig = {
   backgroundGradientFrom: "#1E2923",
   backgroundGradientTo: "#08130D",
   color: (opacity = 1) => `rgba(0, 0,0, ${opacity})`,
+  propsForDots: {
+    r: "0",
+  },
+  propsForBackgroundLines:{
+    strokeWidth:"0.4",
+  }
 };
 
 const TreeChart = ({ data }) => {
@@ -29,7 +35,6 @@ const TreeChart = ({ data }) => {
         height={200}
         chartConfig={chartConfig}
         bezier
-        // verticalLabelRotation={90}
         style={{ marginBottom: -20 }}
       />
     </View>

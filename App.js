@@ -18,6 +18,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import TreeChart from "./src/TreeChart";
 import { Text, ButtonGroup } from "react-native-elements";
+import { Icon } from 'react-native-elements'
 
 function Dashboard({ navigation }) {
   return (
@@ -173,17 +174,34 @@ function DetailsScreen({ route, navigation }) {
             VPD: {treedata.data[treedata.data.length - 1].VPD}
           </Text>
         </View>
+        {treedata.health !== 0?
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 20,
+          }}
+        >
+        <Icon
+            name='report-problem'
+            type='material'
+            color='orange'
+          />
+        <Text>Tree's health is at risk. Contact an arborist.</Text>
+        </View>
+        :null}
         <Toggle
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
         />
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Text> Sap Flow (cm/hr) </Text>
+          <Text style={{fontWeight: 'bold',marginTop:15}}> Sap Flow (cm/hr) </Text>
           <TreeChart data={sapFlowData} />
           <Text style={{ marginBottom: 40, marginTop: 0 }}>
             {SAPstartDate} - {SAPendDate}
           </Text>
-          <Text> VPD (kPa)</Text>
+          <Text style={{fontWeight: 'bold'}}> VPD (kPa)</Text>
           <TreeChart data={VPDData} />
           <Text style={{ marginBottom: 40, marginTop: 0 }}>
             {VPDstartDate} - {VPDendDate}
