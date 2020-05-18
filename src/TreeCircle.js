@@ -56,7 +56,7 @@ const TreeCircle = ({ treeData, navigation }) => {
          {/*<Text style={styles.title}> Health Index (HI) </Text>
             <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].H_index).toFixed(2)} </Text> */}
       </TouchableOpacity>
-      <Text style={styles.name} onPress={() => navigation.navigate("Details")}>
+      <Text style={styles.name}>
         {treeData.name}
       </Text>
     </View>
