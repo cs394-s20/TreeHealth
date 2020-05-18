@@ -36,7 +36,7 @@ function HomeScreen({ navigation }) {
   );
 }
 
-
+// Updated
 const constructData = (treeData, datatype, viewtype) => {
   let labels = [];
   let datasets = [];
