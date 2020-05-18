@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -34,7 +33,6 @@ const styles = StyleSheet.create({
 });
 
 const TreeCircle = ({ treeData, navigation }) => {
-  //console.log(treeData.data[treeData.data.length - 1].sapFlow)
   return (
     <View style={styles.container}>
       <TouchableOpacity

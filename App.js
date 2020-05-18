@@ -1,8 +1,6 @@
 /*This is an Example of Grid View in React Native*/
 import { Component, Fragment } from "react";
-//import rect in our project
 import {
-  // Text,
   Button,
   StyleSheet,
   View,
@@ -14,16 +12,13 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import TreeCircle from "./src/TreeCircle";
-// import treesData from "./src/TreesData.json";
 import treesData from "./csv_converstion_script/treesJSON.json";
 import TreeGrid from "./src/TreeGrid";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import { NavigationContainer } from "@react-navigation/native";
 import TreeChart from "./src/TreeChart";
 import { Text, ButtonGroup } from "react-native-elements";
 
-//import all the components we will need
 
 function Dashboard({ navigation }) {
   return (
@@ -41,30 +36,12 @@ function HomeScreen({ navigation }) {
   );
 }
 
-const vpd_data = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-    },
-  ],
-};
-
-const sapflow_data = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43],
-    },
-  ],
-};
 
 const constructData = (treeData, datatype, viewtype) => {
-  //console.log(treeData)
   let labels = [];
   let datasets = [];
 
-  // If we are in week view
+  // Week View
   if (viewtype === 0) {
     for (
       let i = treeData["data"].length - 8;
@@ -90,6 +67,7 @@ const constructData = (treeData, datatype, viewtype) => {
     }
   }
 
+  // Year View
   if (viewtype === 2) {
     for (
       let i = treeData["data"].length - 8;
@@ -101,17 +79,10 @@ const constructData = (treeData, datatype, viewtype) => {
     }
   }
 
-  // for (let i = 0; i < 14; i++) {
-  //   // labels.push(i);
-  //   labels.push(treeData["data"][i]["date"]);
-  //   datasets.push(treeData["data"][i][datatype]);
-  // }
-
   let graphData = {};
   graphData["labels"] = labels;
   graphData["datasets"] = [{ data: datasets }];
 
-  //console.log(graphData)
   return graphData;
 };
 
@@ -119,10 +90,9 @@ function DetailsScreen({ route, navigation }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { treedata } = route.params;
-  console.log(treedata);
 
-  const sapFlowData = constructData(treedata, "scaledSapFlow");
-  const VPDData = constructData(treedata, "scaledVPD");
+  const sapFlowData = constructData(treedata, "scaledSapFlow", selectedIndex);
+  const VPDData = constructData(treedata, "scaledVPD", selectedIndex);
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -246,7 +216,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     backgroundColor: "white",
-    // marginHorizontal: 10,
   },
 });
 

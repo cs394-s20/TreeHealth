@@ -1,6 +1,5 @@
 /*This is an Example of Grid View in React Native*/
 import { Component } from "react";
-//import rect in our project
 import {
   StyleSheet,
   View,
@@ -11,9 +10,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import TreeCircle from "./TreeCircle";
-import treesData from "./TreesData.json";
-
-//import all the components we will need
 
 const TreeGrid = ({ treesData, navigation }) => {
   const [items, setItems] = useState(Object.values(treesData.trees));

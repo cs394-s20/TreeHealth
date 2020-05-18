@@ -6,8 +6,7 @@ import json
 listOfTrees = []
 k = 9
 x = 8
-f = open("/Users/eddie/Documents/GitHub/TreeHealth/csv_converstion_script/HealthyDataV2.csv", "r")
-# f = open("HealthyDataV2.csv", "r")
+f = open("HealthyDataV2.csv", "r")
 currentTree = {}
 currentTree['name'] = 'HealthyDataV2'
 currentTreeData = []
@@ -113,8 +112,7 @@ currentTree['data'] = currentTreeData
 listOfTrees.append(currentTree)
 
 
-f = open("/Users/eddie/Documents/GitHub/TreeHealth/csv_converstion_script/UnhealthyDataV2.csv", "r")
-# f = open("UnhealthyDataV2.csv", "r")
+f = open("UnhealthyDataV2.csv", "r")
 currentTree = {}
 currentTree['name'] = 'UnhealthyDataV2'
 currentTreeData = []
@@ -225,7 +223,6 @@ listOfTrees.append(currentTree)
 finalJSONObject = {}
 finalJSONObject['trees'] = listOfTrees
 
-f = open("/Users/eddie/Documents/GitHub/TreeHealth/csv_converstion_script/treesJSON.json", "w")
-# f = open("treesJSON.json", "w")
+f = open("treesJSON.json", "w")
 f.write(json.dumps(finalJSONObject))
 f.close()
