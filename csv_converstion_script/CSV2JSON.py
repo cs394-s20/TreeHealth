@@ -65,11 +65,11 @@ for tree in treeFilePaths:
 	for i in range(len(currentTreeData)):
 		currentTreeData[i]['H_index'] = currentTreeData[i]['scaledSapFlow'] + (ulVPD - currentTreeData[i]['scaledVPD'])
 	
+	# Calculate Baseline Mean and Std. Dev. of Health Index for FIRST 2 WEEKS
 	sumHIndex = 0.0
 	for i in range(14):
 		sumHIndex += currentTreeData[i]['H_index']
 
-	# Calculate Mean and Std. Dev. of Health Index for FIRST 2 WEEKS
 	meanHI = sumHIndex / 14
 	sumDifHI = 0.0
 	for i in range(14):
@@ -98,9 +98,9 @@ for tree in treeFilePaths:
 	perRule2 = float(countWithin2SD) / len(currentTreeData) * 100 
 	perRule3 = float(countBelowMean) / len(currentTreeData) * 100 
 
-	print(perRule1)
-	print(perRule2)
-	print(perRule3)
+	print("Rule 1: ", perRule1)
+	print("Rule 2: ", perRule2)
+	print("Rule 3: ", perRule3)
 
 	violated = 0 
 
@@ -111,8 +111,11 @@ for tree in treeFilePaths:
 	if perRule3 > 60:
 		violated += 1
 
-	print(violated == 0)
-	currentTree['health'] = (violated == 0)
+	print("Rules Violated: ", violated)
+	print("Tree Health: ", violated == 0)
+	currentTree['health'] = violated
+	currentTree["meanHI"] = meanHI
+	currentTree["sdHI"] = sdHI
 	currentTree['data'] = currentTreeData
 	listOfTrees.append(currentTree)
 

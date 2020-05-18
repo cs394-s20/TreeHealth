@@ -81,7 +81,12 @@ const constructData = (treeData, datatype, viewtype) => {
 
   let graphData = {};
   graphData["labels"] = labels;
-  graphData["datasets"] = [{ data: datasets }];
+
+  let datasets2 = [];
+  for (let i = 0; i < datasets.length; i ++){
+    datasets2.push(i);
+  }
+  graphData["datasets"] = [{ data: datasets}];
 
   return graphData;
 };
@@ -107,11 +112,11 @@ function DetailsScreen({ route, navigation }) {
           <Text h3>{treedata.name}</Text>
           <View
             style={
-              treedata.health ? styles.healthy_circle : styles.unhealthy_circle
+              (treedata.health == 0) ? styles.healthy_circle : (treedata.health == 1 ? styles.warning_circle : styles.unhealthy_circle)
             }
           >
-            <Text style={styles.title}> Health Index (HI) </Text>
-            <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].H_index).toFixed(2)} </Text>
+            {/*<Text style={styles.title}> Health Index (HI) </Text>
+            <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].H_index).toFixed(2)} </Text> */}
           </View>
         </View>
 
@@ -196,6 +201,14 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     margin: 10,
     backgroundColor: "red",
+    justifyContent: "center",
+  },
+  warning_circle: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    margin: 10,
+    backgroundColor: "yellow",
     justifyContent: "center",
   },
   healthy_circle: {
