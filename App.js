@@ -82,8 +82,8 @@ function DetailsScreen({ route, navigation }) {
   const { treedata } = route.params;
   console.log(treedata);
 
-  const sapFlowData = constructData(treedata, "sapFlow");
-  const VPDData = constructData(treedata, "VPD");
+  const sapFlowData = constructData(treedata, "scaledSapFlow");
+  const VPDData = constructData(treedata, "scaledVPD");
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -98,11 +98,11 @@ function DetailsScreen({ route, navigation }) {
           <Text h3>{treedata.name}</Text>
           <View
             style={
-              treedata.data[treedata.data.length - 1].sapFlow > 5 ? styles.healthy_circle : styles.unhealthy_circle
+              treedata.health ? styles.healthy_circle : styles.unhealthy_circle
             }
           >
             <Text style={styles.title}> Health Index (HI) </Text>
-            <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].sapFlow).toFixed(2)} </Text>
+            <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].H_index).toFixed(2)} </Text>
           </View>
         </View>
 

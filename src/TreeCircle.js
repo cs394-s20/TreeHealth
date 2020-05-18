@@ -39,7 +39,7 @@ const TreeCircle = ({ treeData, navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity
         style={
-          (treeData.data[treeData.data.length - 1].sapFlow > 0) ? styles.healthy_circle : styles.unhealthy_circle
+          (treeData.health) ? styles.healthy_circle : styles.unhealthy_circle
         }
         onPress={() =>
           navigation.navigate("TreeSummary", {
@@ -48,7 +48,7 @@ const TreeCircle = ({ treeData, navigation }) => {
         }
       >
         <Text style={styles.title}> Health Index (HI) </Text>
-        <Text style={styles.name}> {(treeData.data[treeData.data.length - 1].sapFlow).toFixed(2)} </Text>
+        <Text style={styles.name}> {(treeData.data[treeData.data.length - 1].H_index).toFixed(2)} </Text>
       </TouchableOpacity>
       <Text style={styles.name} onPress={() => navigation.navigate("Details")}>
         {treeData.name}
