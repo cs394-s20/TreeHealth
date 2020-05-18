@@ -64,6 +64,7 @@ const constructData = (treeData, datatype, viewtype) => {
   let labels = [];
   let datasets = [];
 
+  // If we are in week view
   if (viewtype === 0) {
     for (
       let i = treeData["data"].length - 8;
@@ -75,20 +76,8 @@ const constructData = (treeData, datatype, viewtype) => {
     }
   }
 
-  // If we are in week view
-  if (viewtype === 1) {
-    for (
-      let i = treeData["data"].length - 8;
-      i < treeData["data"].length;
-      i++
-    ) {
-      labels.push(treeData["data"][i]["date"]);
-      datasets.push(treeData["data"][i][datatype]);
-    }
-  }
-
   // Month View
-  if (viewtype === 2) {
+  if (viewtype === 1) {
     for (
       let i = treeData["data"].length - 30;
       i < treeData["data"].length;
@@ -101,7 +90,7 @@ const constructData = (treeData, datatype, viewtype) => {
     }
   }
 
-  if (viewtype === 3) {
+  if (viewtype === 2) {
     for (
       let i = treeData["data"].length - 8;
       i < treeData["data"].length;
@@ -193,15 +182,13 @@ function DetailsScreen({ route, navigation }) {
 }
 
 const Toggle = ({ selectedIndex, setSelectedIndex }) => {
-  const component1 = () => <Text>Day</Text>;
-  const component2 = () => <Text>Week</Text>;
-  const component3 = () => <Text>Month</Text>;
-  const component4 = () => <Text>Year</Text>;
+  const component1 = () => <Text>Week</Text>;
+  const component2 = () => <Text>Month</Text>;
+  const component3 = () => <Text>Year</Text>;
   const buttons = [
     { element: component1 },
     { element: component2 },
     { element: component3 },
-    { element: component4 },
   ];
   return (
     <ButtonGroup
