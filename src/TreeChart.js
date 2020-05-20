@@ -1,37 +1,44 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
-  Text, 
-  Button, 
+  Text,
+  Button,
   StyleSheet,
   View,
   FlatList,
   ActivityIndicator,
   Image,
   TouchableOpacity,
-} from 'react-native';
-import { LineChart } from 'react-native-line-chart'
-import { Dimensions } from 'react-native'
-const screenWidth = Dimensions.get('window').width
+} from "react-native";
+import { LineChart, SafeAreaView, ScrollView } from "react-native-chart-kit";
+import { Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
 
 const chartConfig = {
-  backgroundGradientFrom: '#1E2923',
-  backgroundGradientTo: '#08130D',
-  color: (opacity = 1) => `rgba(0, 0,0, ${opacity})`
-}
+  backgroundGradientFrom: "#1E2923",
+  backgroundGradientTo: "#08130D",
+  color: (opacity = 1) => `rgba(0, 0,0, ${opacity})`,
+  propsForDots: {
+    r: "0",
+  },
+  propsForBackgroundLines:{
+    strokeWidth:"0.4",
+  }
+};
 
+const TreeChart = ({ data }) => {
+  return (
+    <View style={{ marginBottom: 0 }}>
+      <LineChart
+        data={data}
+        width={screenWidth}
+        height={200}
+        chartConfig={chartConfig}
+        bezier
+        style={{ marginBottom: -20 }}
+      />
+    </View>
+  );
+};
 
-const TreeChart = ({data}) => {
-	return (
-		<View>
-		  <LineChart
-			  data={data}
-			  width={screenWidth}
-			  height={220}
-			  chartConfig={chartConfig}
-			  bezier
-			/>
-		</View>
-	)
-}
-
-export default TreeChart
+export default TreeChart;
