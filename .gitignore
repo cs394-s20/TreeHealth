@@ -12,3 +12,6 @@ web-report/
 
 # macOS
 .DS_Store
+
+#pycharm
+csv_converstion_script/
