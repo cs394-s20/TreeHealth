@@ -8,6 +8,7 @@ import TreeGrid from "./src/TreeGrid";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import DetailsScreen from './src/TreeSummary';
+import HelpPage from './src/HelpPage';
 
 function Dashboard({ navigation }) {
   return (
@@ -25,6 +26,7 @@ function HomeScreen({ navigation }) {
   );
 }
 
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -33,6 +35,7 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen name="TreeHealth" component={HomeScreen} />
         <Stack.Screen name="TreeSummary" component={DetailsScreen} />
+        <Stack.Screen name="HelpPage" component={HelpPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

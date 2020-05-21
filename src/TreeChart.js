@@ -15,14 +15,14 @@ import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 
 const chartConfig = {
-  backgroundGradientFrom: "#1E2923",
-  backgroundGradientTo: "#08130D",
+  backgroundGradientFrom: "#FFFFFF",
+  backgroundGradientTo: "#FFFFFF",
   color: (opacity = 1) => `rgba(0, 0,0, ${opacity})`,
   propsForDots: {
     r: "0",
   },
   propsForBackgroundLines:{
-    strokeWidth:"0.4",
+    strokeWidth:"0",
   }
 };
 
@@ -35,7 +35,7 @@ const TreeChart = ({ data }) => {
         height={200}
         chartConfig={chartConfig}
         bezier
-        style={{ marginBottom: -20 }}
+        style={{ marginBottom: -20}}
       />
     </View>
   );

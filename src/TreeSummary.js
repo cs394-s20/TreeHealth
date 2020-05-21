@@ -207,6 +207,15 @@ function DetailsScreen({ route, navigation }) {
           <Text style={{ textAlign: "right" }}>
             VPD: {treedata.data[treedata.data.length - 1].VPD}
           </Text>
+          <Icon
+            name='info'
+            style={{marginLeft:10}}
+            type='material'
+            onPress={() =>
+              navigation.navigate("HelpPage")
+            }
+            color='rgb(86,140,201)'
+          />
         </View>
         {treedata.health !== 0?
         <View
