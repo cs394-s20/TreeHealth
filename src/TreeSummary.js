@@ -7,6 +7,7 @@ import {
   import TreeChart from "./TreeChart";
   import { Text, ButtonGroup } from "react-native-elements";
   import { Icon } from 'react-native-elements'
+  import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
   imageThumbnail: {
@@ -231,7 +232,8 @@ function DetailsScreen({ route, navigation }) {
             type='material'
             color='orange'
           />
-        <Text>Tree's health is at risk. Contact an arborist.</Text>
+          <Text>Tree's health is at risk. </Text>
+        <Text onPress={() => { Linking.openURL('https://www.google.com/search?q=local+arborists')}} style={{color:'blue', textDecorationLine:'underline'}}>Contact an arborist.</Text>
         </View>
         :null}
         <Toggle
