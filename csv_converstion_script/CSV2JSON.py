@@ -14,6 +14,7 @@ for tree in treeFilePaths:
 	currentTree['name'] = tree.split(".")[0]
 	currentTreeData = []
 	firstDate = ''
+	serialNumber = 0
 
 	maxVPD = float('-inf')
 	minVPD = float('inf')
@@ -23,7 +24,7 @@ for tree in treeFilePaths:
 	f = open(tree, "r")
 
 	for line in f.readlines()[1:]: 
-		[date, heatRatio, VPD, ambientTemp] = line.split(',')
+		[serialNumber, date, heatRatio, VPD, ambientTemp] = line.split(',')
 		
 		if firstDate == '':
 			firstDate = date
@@ -113,9 +114,10 @@ for tree in treeFilePaths:
 
 	print("Rules Violated: ", violated)
 	print("Tree Health: ", violated == 0)
+	currentTree['serialNumber'] = int(serialNumber)
 	currentTree['health'] = violated
-	currentTree["meanHI"] = meanHI
-	currentTree["sdHI"] = sdHI
+	currentTree['meanHI'] = meanHI
+	currentTree['sdHI'] = sdHI
 	currentTree['data'] = currentTreeData
 	listOfTrees.append(currentTree)
 
