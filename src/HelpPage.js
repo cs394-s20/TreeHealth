@@ -74,7 +74,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
    
     
     return (
-        <React.Fragment >
+        <React.Fragment>
             <Accordion
                 touchableComponent={TouchableOpacity}
                 sections={SECTIONS}

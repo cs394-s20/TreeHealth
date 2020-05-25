@@ -1,5 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
+import IconBadge from 'react-native-icon-badge';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +13,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 75,
     margin: 10,
-    backgroundColor: "red",
+    backgroundColor: "rgb(234,170,156)",
     justifyContent: "center",
   },
   warning_circle: {
@@ -19,7 +21,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 75,
     margin: 10,
-    backgroundColor: "yellow",
+    backgroundColor: "rgba(239,223,180,255)",
     justifyContent: "center",
   },
   healthy_circle: {
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 75,
     margin: 10,
-    backgroundColor: "green",
+    backgroundColor: "rgb(188,213,184)",
     justifyContent: "center",
   },
   name: {
@@ -53,6 +55,21 @@ const TreeCircle = ({ treeData, navigation }) => {
           })
         }
       >
+      <View>
+        <Avatar 
+          icon={treeData.health === 0 ? {name:'check-circle',
+          type:'material-icons',color:'green'} :
+          treeData.health === 1 ? {name:'warning',
+          type:'material-icons', color:'rgb(255,204,51)'} :
+          {name:'error',
+          type:'material-icons',
+          color:'rgb(228,66,4)'}
+          }
+          rounded
+          size='large'
+          containerStyle={{ position: 'absolute', top: -70, right: 5}}
+        />
+      </View>
          {/*<Text style={styles.title}> Health Index (HI) </Text>
             <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].H_index).toFixed(2)} </Text> */}
       </TouchableOpacity>

@@ -1,6 +1,6 @@
 import {
   StyleSheet,
-  View,
+  View
 } from "react-native";
 import React, { useState } from "react";
 import treesData from "./csv_converstion_script/treesJSON.json";
