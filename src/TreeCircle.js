@@ -69,6 +69,28 @@ const TreeCircle = ({ treeData, navigation }) => {
           size='large'
           containerStyle={{ position: 'absolute', top: -70, right: 5}}
         />
+        <View>
+        <IconBadge 
+          // MainElement={
+          //   <View style={{backgroundColor:'#489EFE',
+          //     width:50,
+          //     height:50,
+          //     margin:6
+          //   }}/>
+          // }
+          BadgeElement={
+            <Icon name='tree' type='entypo' size='60'></Icon>
+          }
+          IconBadgeStyle={
+            {width:60,
+            height:70,
+            backgroundColor: treeData.health === 0 ? "rgb(188,213,184)" : treeData.health === 1 ? "rgba(239,223,180,255)" : "rgb(234,170,156)",
+            marginRight:45,
+            marginTop:-20}
+          }
+          // Hidden={this.state.BadgeCount==0}
+        />
+        </View>
       </View>
          {/*<Text style={styles.title}> Health Index (HI) </Text>
             <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].H_index).toFixed(2)} </Text> */}
