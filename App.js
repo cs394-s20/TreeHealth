@@ -1,7 +1,7 @@
 import {
   StyleSheet,
   View
-} from "react-native";
+  } from "react-native";
 import React, { useState } from "react";
 import treesData from "./csv_converstion_script/treesJSON.json";
 import TreeGrid from "./src/TreeGrid";

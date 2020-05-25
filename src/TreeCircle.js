@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
 import IconBadge from 'react-native-icon-badge';
 
@@ -79,7 +79,12 @@ const TreeCircle = ({ treeData, navigation }) => {
           //   }}/>
           // }
           BadgeElement={
-            <Icon name='tree' type='entypo' size='60'></Icon>
+
+            //<Icon name='tree' type='entypo' size="60"></Icon>
+            treeData.health === 0 ? <Image  style={{ width: 50, height: 50 }} source={require('./healthy_tree.png')} /> :
+            (treeData.health === 1 ?  <Image  style={{ width: 50, height: 50 }} source={require('./declining_tree.png')} /> :
+                                      <Image  style={{ width: 50, height: 50 }} source={require('./dead_tree.png')} /> )
+
           }
           IconBadgeStyle={
             {width:60,
