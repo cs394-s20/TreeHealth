@@ -1,14 +1,17 @@
 import {
     StyleSheet,
+    TouchableOpacity,
+    Image,
     View,
     ScrollView,
   } from "react-native";
   import React, { useState, useEffect } from "react";
   import TreeChart from "./TreeChart";
-  import { Text, ButtonGroup } from "react-native-elements";
-  import { Icon } from 'react-native-elements'
+  import { Text, ButtonGroup, Avatar, Icon } from "react-native-elements";
   import * as Linking from 'expo-linking';
   import Dialog from "react-native-dialog";
+  import IconBadge from 'react-native-icon-badge';
+
 
 const styles = StyleSheet.create({
   imageThumbnail: {
@@ -21,7 +24,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 75,
     margin: 10,
-    backgroundColor: "red",
+    backgroundColor: "rgb(234,170,156)",
     justifyContent: "center",
   },
   warning_circle: {
@@ -29,7 +32,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 75,
     margin: 10,
-    backgroundColor: "yellow",
+    backgroundColor: "rgba(239,223,180,255)",
     justifyContent: "center",
   },
   healthy_circle: {
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 75,
     margin: 10,
-    backgroundColor: "green",
+    backgroundColor: "rgb(188,213,184)",
     justifyContent: "center",
   },
   name: {
@@ -209,7 +212,7 @@ function DetailsScreen({ route, navigation }) {
           }}
         >
           <Text h3>{treedata.name}</Text>
-          <View
+          {/*<View
             style={
               treedata.health == 0
                 ? styles.healthy_circle
@@ -218,9 +221,46 @@ function DetailsScreen({ route, navigation }) {
                 : styles.unhealthy_circle
             }
           >
-            {/*<Text style={styles.title}> Health Index (HI) </Text>
-            <Text style={styles.name}> {(treedata.data[treedata.data.length - 1].H_index).toFixed(2)} </Text> */}
-          </View>
+          </View>*/}
+        <View style={styles.container}>
+          <TouchableOpacity
+            style={
+              (treedata.health == 0) ? styles.healthy_circle : (treedata.health == 1 ? styles.warning_circle : styles.unhealthy_circle)
+            }
+          >
+            <View>
+              <Avatar 
+                icon={treedata.health === 0 ? {name:'check-circle',
+                type:'material-icons',color:'green'} :
+                treedata.health === 1 ? {name:'warning',
+                type:'material-icons', color:'rgb(255,204,51)'} :
+                {name:'error',
+                type:'material-icons',
+                color:'rgb(228,66,4)'}
+                }
+                rounded
+                size='large'
+                containerStyle={{ position: 'absolute', top: -70, right: 5}}
+              />
+              <View>
+                <IconBadge 
+                  BadgeElement={
+                    treedata.health === 0 ? <Image  style={{ width: 50, height: 50 }} source={require('./healthy_tree.png')} /> :
+                    (treedata.health === 1 ?  <Image  style={{ width: 50, height: 50 }} source={require('./declining_tree.png')} /> :
+                                              <Image  style={{ width: 50, height: 50 }} source={require('./dead_tree.png')} /> )
+                  }
+                  IconBadgeStyle={
+                    {width:60,
+                    height:70,
+                    backgroundColor: treedata.health === 0 ? "rgb(188,213,184)" : treedata.health === 1 ? "rgba(239,223,180,255)" : "rgb(234,170,156)",
+                    marginRight:45,
+                    marginTop:-20}
+                  }
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
         </View>
 
         <View
