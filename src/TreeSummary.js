@@ -3,11 +3,12 @@ import {
     View,
     ScrollView,
   } from "react-native";
-  import React, { useState } from "react";
+  import React, { useState, useEffect } from "react";
   import TreeChart from "./TreeChart";
   import { Text, ButtonGroup } from "react-native-elements";
   import { Icon } from 'react-native-elements'
   import * as Linking from 'expo-linking';
+  import Dialog from "react-native-dialog";
 
 const styles = StyleSheet.create({
   imageThumbnail: {
@@ -51,6 +52,35 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
 });
+
+const LowHealthPopup = ({warningIsVisible}) => {
+  const [showWarning, setShowWarning] = useState(warningIsVisible);
+  useEffect(() => {
+
+  }, [])
+
+  const closePopup = () => {
+    setShowWarning(false);
+  }
+
+  const findArborist = () => {
+    setShowWarning(false);
+    Linking.openURL('https://www.google.com/search?q=local+arborists');
+  }
+
+  return (
+    <View>
+      <Dialog.Container visible={showWarning}>
+        <Dialog.Title>Low Health!</Dialog.Title>
+        <Dialog.Description>
+          Oh no!  Seems like this tree's health is low.
+        </Dialog.Description>
+        <Dialog.Button label="Sadness. Ok." onPress={closePopup}/>
+        <Dialog.Button label="Find an Arborist" onPress={findArborist}/>
+      </Dialog.Container>
+    </View>
+  )
+}
 
 const constructData = (treeData, datatype, viewtype) => {
   let labels = [];
@@ -234,6 +264,8 @@ function DetailsScreen({ route, navigation }) {
           />
           <Text>Tree's health is at risk. </Text>
         <Text onPress={() => { Linking.openURL('https://www.google.com/search?q=local+arborists')}} style={{color:'blue', textDecorationLine:'underline'}}>Contact an arborist.</Text>
+        <LowHealthPopup warningIsVisible={treedata.health !== 0}/>
+        
         </View>
         :null}
         <Toggle
