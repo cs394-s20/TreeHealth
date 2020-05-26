@@ -1,14 +1,12 @@
-import {
-  StyleSheet,
-  View
-  } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import treesData from "./csv_converstion_script/treesJSON.json";
 import TreeGrid from "./src/TreeGrid";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import DetailsScreen from './src/TreeSummary';
-import HelpPage from './src/HelpPage';
+import DetailsScreen from "./src/TreeSummary";
+import HelpPage from "./src/HelpPage";
+import TreeCamera from "./src/TreeCamera";
 
 function Dashboard({ navigation }) {
   return (
@@ -26,7 +24,6 @@ function HomeScreen({ navigation }) {
   );
 }
 
-
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -36,6 +33,7 @@ const App = () => {
         <Stack.Screen name="TreeHealth" component={HomeScreen} />
         <Stack.Screen name="TreeSummary" component={DetailsScreen} />
         <Stack.Screen name="HelpPage" component={HelpPage} />
+        <Stack.Screen name="CameraPage" component={TreeCamera} />
       </Stack.Navigator>
     </NavigationContainer>
   );

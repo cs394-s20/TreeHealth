@@ -1,17 +1,17 @@
 import {
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    View,
-    ScrollView,
-  } from "react-native";
-  import React, { useState, useEffect } from "react";
-  import TreeChart from "./TreeChart";
-  import { Text, ButtonGroup, Avatar, Icon } from "react-native-elements";
-  import * as Linking from 'expo-linking';
-  import Dialog from "react-native-dialog";
-  import IconBadge from 'react-native-icon-badge';
-
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  View,
+  ScrollView,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import TreeChart from "./TreeChart";
+import { Text, ButtonGroup, Avatar, Icon } from "react-native-elements";
+import * as Linking from "expo-linking";
+import Dialog from "react-native-dialog";
+import IconBadge from "react-native-icon-badge";
+import TreeCamera from "./TreeCamera";
 
 const styles = StyleSheet.create({
   imageThumbnail: {
@@ -56,34 +56,32 @@ const styles = StyleSheet.create({
   },
 });
 
-const LowHealthPopup = ({warningIsVisible}) => {
+const LowHealthPopup = ({ warningIsVisible }) => {
   const [showWarning, setShowWarning] = useState(warningIsVisible);
-  useEffect(() => {
-
-  }, [])
+  useEffect(() => {}, []);
 
   const closePopup = () => {
     setShowWarning(false);
-  }
+  };
 
   const findArborist = () => {
     setShowWarning(false);
-    Linking.openURL('https://www.google.com/search?q=local+arborists');
-  }
+    Linking.openURL("https://www.google.com/search?q=local+arborists");
+  };
 
   return (
     <View>
       <Dialog.Container visible={showWarning}>
         <Dialog.Title>Low Health!</Dialog.Title>
         <Dialog.Description>
-          Oh no!  Seems like this tree's health is low.
+          Oh no! Seems like this tree's health is low.
         </Dialog.Description>
-        <Dialog.Button label="Sadness. Ok." onPress={closePopup}/>
-        <Dialog.Button label="Find an Arborist" onPress={findArborist}/>
+        <Dialog.Button label="Sadness. Ok." onPress={closePopup} />
+        <Dialog.Button label="Find an Arborist" onPress={findArborist} />
       </Dialog.Container>
     </View>
-  )
-}
+  );
+};
 
 const constructData = (treeData, datatype, viewtype) => {
   let labels = [];
@@ -222,45 +220,97 @@ function DetailsScreen({ route, navigation }) {
             }
           >
           </View>*/}
-        <View style={styles.container}>
-          <TouchableOpacity
-            style={
-              (treedata.health == 0) ? styles.healthy_circle : (treedata.health == 1 ? styles.warning_circle : styles.unhealthy_circle)
-            }
-          >
-            <View>
-              <Avatar 
-                icon={treedata.health === 0 ? {name:'check-circle',
-                type:'material-icons',color:'green'} :
-                treedata.health === 1 ? {name:'warning',
-                type:'material-icons', color:'rgb(255,204,51)'} :
-                {name:'error',
-                type:'material-icons',
-                color:'rgb(228,66,4)'}
-                }
-                rounded
-                size='large'
-                containerStyle={{ position: 'absolute', top: -70, right: 5}}
-              />
+          <View style={styles.container}>
+            <View
+              style={
+                treedata.health == 0
+                  ? styles.healthy_circle
+                  : treedata.health == 1
+                  ? styles.warning_circle
+                  : styles.unhealthy_circle
+              }
+            >
               <View>
-                <IconBadge 
-                  BadgeElement={
-                    treedata.health === 0 ? <Image  style={{ width: 50, height: 50 }} source={require('./healthy_tree.png')} /> :
-                    (treedata.health === 1 ?  <Image  style={{ width: 50, height: 50 }} source={require('./declining_tree.png')} /> :
-                                              <Image  style={{ width: 50, height: 50 }} source={require('./dead_tree.png')} /> )
+                <Avatar
+                  icon={
+                    treedata.health === 0
+                      ? {
+                          name: "check-circle",
+                          type: "material-icons",
+                          color: "green",
+                        }
+                      : treedata.health === 1
+                      ? {
+                          name: "warning",
+                          type: "material-icons",
+                          color: "rgb(255,204,51)",
+                        }
+                      : {
+                          name: "error",
+                          type: "material-icons",
+                          color: "rgb(228,66,4)",
+                        }
                   }
-                  IconBadgeStyle={
-                    {width:60,
-                    height:70,
-                    backgroundColor: treedata.health === 0 ? "rgb(188,213,184)" : treedata.health === 1 ? "rgba(239,223,180,255)" : "rgb(234,170,156)",
-                    marginRight:45,
-                    marginTop:-20}
-                  }
+                  rounded
+                  size="large"
+                  containerStyle={{ position: "absolute", top: -70, right: 5 }}
                 />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("CameraPage")}
+                >
+                  <Avatar
+                    icon={{
+                      name: "camera-alt",
+                      type: "material-icons",
+                      color: "black",
+                    }}
+                    rounded
+                    size="medium"
+                    containerStyle={{
+                      position: "absolute",
+                      top: 30,
+                      right: 0,
+                      backgroundColor: "rgba(232, 232, 232, 1)",
+                    }}
+                  />
+                </TouchableOpacity>
+                <View>
+                  <IconBadge
+                    BadgeElement={
+                      treedata.health === 0 ? (
+                        <Image
+                          style={{ width: 50, height: 50 }}
+                          source={require("./healthy_tree.png")}
+                        />
+                      ) : treedata.health === 1 ? (
+                        <Image
+                          style={{ width: 50, height: 50 }}
+                          source={require("./declining_tree.png")}
+                        />
+                      ) : (
+                        <Image
+                          style={{ width: 50, height: 50 }}
+                          source={require("./dead_tree.png")}
+                        />
+                      )
+                    }
+                    IconBadgeStyle={{
+                      width: 60,
+                      height: 70,
+                      backgroundColor:
+                        treedata.health === 0
+                          ? "rgb(188,213,184)"
+                          : treedata.health === 1
+                          ? "rgba(239,223,180,255)"
+                          : "rgb(234,170,156)",
+                      marginRight: 45,
+                      marginTop: -20,
+                    }}
+                  />
+                </View>
               </View>
             </View>
-          </TouchableOpacity>
-        </View>
+          </View>
         </View>
 
         <View
@@ -279,46 +329,51 @@ function DetailsScreen({ route, navigation }) {
             VPD: {treedata.data[treedata.data.length - 1].VPD}
           </Text>
           <Icon
-            name='info'
-            style={{marginLeft:10}}
-            type='material'
-            onPress={() =>
-              navigation.navigate("HelpPage")
-            }
-            color='rgb(86,140,201)'
+            name="info"
+            style={{ marginLeft: 10 }}
+            type="material"
+            onPress={() => navigation.navigate("HelpPage")}
+            color="rgb(86,140,201)"
           />
         </View>
-        {treedata.health !== 0?
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: 20,
-          }}
-        >
-        <Icon
-            name='report-problem'
-            type='material'
-            color='orange'
-          />
-          <Text>Tree's health is at risk. </Text>
-        <Text onPress={() => { Linking.openURL('https://www.google.com/search?q=local+arborists')}} style={{color:'blue', textDecorationLine:'underline'}}>Contact an arborist.</Text>
-        <LowHealthPopup warningIsVisible={treedata.health !== 0}/>
-        
-        </View>
-        :null}
+        {treedata.health !== 0 ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 20,
+            }}
+          >
+            <Icon name="report-problem" type="material" color="orange" />
+            <Text>Tree's health is at risk. </Text>
+            <Text
+              onPress={() => {
+                Linking.openURL(
+                  "https://www.google.com/search?q=local+arborists"
+                );
+              }}
+              style={{ color: "blue", textDecorationLine: "underline" }}
+            >
+              Contact an arborist.
+            </Text>
+            <LowHealthPopup warningIsVisible={treedata.health !== 0} />
+          </View>
+        ) : null}
         <Toggle
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
         />
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Text style={{fontWeight: 'bold',marginTop:15}}> Sap Flow (cm/hr) </Text>
+          <Text style={{ fontWeight: "bold", marginTop: 15 }}>
+            {" "}
+            Sap Flow (cm/hr){" "}
+          </Text>
           <TreeChart data={sapFlowData} />
           <Text style={{ marginBottom: 40, marginTop: 0 }}>
             {SAPstartDate} - {SAPendDate}
           </Text>
-          <Text style={{fontWeight: 'bold'}}> VPD (kPa)</Text>
+          <Text style={{ fontWeight: "bold" }}> VPD (kPa)</Text>
           <TreeChart data={VPDData} />
           <Text style={{ marginBottom: 40, marginTop: 0 }}>
             {VPDstartDate} - {VPDendDate}
