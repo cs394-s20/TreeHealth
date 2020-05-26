@@ -216,7 +216,8 @@ function DetailsScreen({ route, navigation }) {
           >
           </View>*/}
           <View style={styles.container}>
-            <View
+            <TouchableOpacity
+              onPress={() => navigation.navigate("CameraPage")}
               style={
                 treedata.health == 0
                   ? styles.healthy_circle
@@ -304,7 +305,7 @@ function DetailsScreen({ route, navigation }) {
                   />
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
 

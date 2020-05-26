@@ -5,6 +5,9 @@ import {
   View,
   TouchableOpacity,
   Platform,
+  ScrollView,
+  Image,
+  Dimensions
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as Permissions from "expo-permissions";
@@ -16,7 +19,64 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 
+const { width: winWidth, height: winHeight } = Dimensions.get('window')
+
+const styles = StyleSheet.create({
+    preview: {
+        height: winHeight,
+        width: winWidth,
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+    },
+    alignCenter: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    bottomToolbar: {
+        width: winWidth,
+        position: 'absolute',
+        height: 100,
+        bottom: 0,
+    },
+    captureBtn: {
+        width: 60,
+        height: 60,
+        borderWidth: 2,
+        borderRadius: 60,
+        borderColor: "#FFFFFF",
+    },
+    captureBtnActive: {
+        width: 80,
+        height: 80,
+    },
+    captureBtnInternal: {
+        width: 76,
+        height: 76,
+        borderWidth: 2,
+        borderRadius: 76,
+        backgroundColor : "red",
+        borderColor: "transparent",
+    },
+    galleryContainer: {
+        bottom: 100
+    },
+    galleryImageContainer: {
+        width: 75,
+        height: 75,
+        marginRight: 5,
+    },
+    galleryImage: {
+        width: 75,
+        height:  75,
+    }
+});
+
 const TreeCamera = () => {
+  const [captures, setCaptures] = useState([]);
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   let cameraRef = useRef(null);
@@ -50,6 +110,7 @@ const TreeCamera = () => {
     if (cameraRef) {
       const options = { quality: 0.5, base64: true };
       let photo = await cameraRef.current.takePictureAsync();
+      setCaptures([photo, ...captures]);
       MediaLibrary.saveToLibraryAsync(photo.uri);
     }
   };
@@ -60,6 +121,19 @@ const TreeCamera = () => {
     });
   };
 
+  const Gallery = ({captures=[]}) => (
+    <ScrollView
+        horizontal={true}
+        style={[styles.bottomToolbar, styles.galleryContainer]}
+    >
+        {captures.map(({uri}) => (
+            <View style={styles.galleryImageContainer} key={uri}>
+                <Image source={{uri}} style={styles.galleryImage}/>
+            </View>
+        ))}
+    </ScrollView>
+);
+
   return hasPermission === null ? (
     <View />
   ) : hasPermission === false ? (
@@ -67,6 +141,7 @@ const TreeCamera = () => {
   ) : (
     <View style={{ flex: 1 }}>
       <Camera style={{ flex: 1 }} type={cameraType} ref={cameraRef}>
+      {captures.length > 0 && <Gallery captures={captures}/>}
         <View
           style={{
             flex: 1,
