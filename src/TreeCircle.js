@@ -69,7 +69,6 @@ const TreeCircle = ({ treeData, navigation }) => {
             <View>
               <IconBadge
                 BadgeElement={
-                  //<Icon name='tree' type='entypo' size="60"></Icon>
                   treeData.health === 0 ? (
                     <Image
                       style={{ width: 40, height: 40 }}

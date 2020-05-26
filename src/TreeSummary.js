@@ -102,7 +102,6 @@ const constructData = (treeData, datatype, viewtype) => {
       if (i === treeData["data"].length - 1) {
         endDate = treeData["data"][i]["date"];
       }
-      // labels.push(treeData["data"][i]["date"]);
       datasets.push(treeData["data"][i][datatype]);
       labels.push("");
     }
@@ -123,9 +122,6 @@ const constructData = (treeData, datatype, viewtype) => {
       }
       datasets.push(treeData["data"][i][datatype]);
       labels.push("");
-      // if (i % 2 === 0) {
-      //   labels.push(treeData["data"][i]["date"]);
-      // }
     }
   }
 
@@ -146,7 +142,6 @@ const constructData = (treeData, datatype, viewtype) => {
       if (i === treeData["data"].length - 1) {
         endDate = treeData["data"][i]["date"];
       }
-      // labels.push(treeData["data"][i]["date"]);
       labels.push("");
       datasets.push(treeData["data"][i][datatype]);
     }

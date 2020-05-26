@@ -35,9 +35,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
       content: 'Vapor Pressure Deficit (VPD) is a pressure difference that creates a suction force that pulls sap from the roots to the leaves. This difference is what drives water movement from the roots to the leaves. VPD is used to measure humidity in the air and determine its impact on tree development. More specifically, it is the pressure difference between the air’s water content and its dew point – the maximum amount the air can carry at its current temperature.',
     },
     {
-        title: 'How do Sap Flow and VPD work together?',
-        content: 'By measuring VPD on the same time scale as sap flow, we learn how strong the air pressure is sucking sap up the tree. As a result, we can use sap flow and VPD data to accurately describe and track the health of a tree over time. If VPD is low, sap flow is expected to be low. However, if VPD is high and sap flow is low, tree function could be declining. Declines in sap flow caused by stressors like infections and drought precede all visible signs of tree decay such as canopy deterioration, wood rot, and instability.'
-     },
+      title: 'How do Sap Flow and VPD work together?',
+      content: 'By measuring VPD on the same time scale as sap flow, we learn how strong the air pressure is sucking sap up the tree. As a result, we can use sap flow and VPD data to accurately describe and track the health of a tree over time. If VPD is low, sap flow is expected to be low. However, if VPD is high and sap flow is low, tree function could be declining. Declines in sap flow caused by stressors like infections and drought precede all visible signs of tree decay such as canopy deterioration, wood rot, and instability.'
+    },
   ];
    
   const HelpPage = () => {
