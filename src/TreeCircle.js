@@ -49,6 +49,8 @@ const TreeCircle = ({ treeData, navigation }) => {
   
   const [imageURIFirebase, setImageURIFirebase] = useState('');
   firebase.storage().ref().child(treeData.imagePath).getDownloadURL().then((url) => setImageURIFirebase(url));
+  console.log('test')
+  console.log(imageURIFirebase)
 
 
   return (

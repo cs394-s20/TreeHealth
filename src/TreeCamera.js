@@ -82,6 +82,8 @@ const TreeCamera = ({route, navigation}) => {
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   let cameraRef = useRef(null);
   let serialNumber = route.params.serialNumber;
+  // console.log('test')
+  // console.log(serialNumber)
 
   useEffect(() => {
     getPermissionAsync();
@@ -117,25 +119,33 @@ const TreeCamera = ({route, navigation}) => {
       const blob = await (await fetch(photo.uri)).blob();
       
       var storageRef = firebase.storage().ref();
-      var name = new Date().getTime().toString();
+      var name = new Date().getTime().toString()+'.jpg';
       storageRef.child(name).put(blob, {
         contentType: 'image/jpeg'
       });
 
       var dbRef = firebase.database().ref();
-
-      // Attach an asynchronous callback to read the data at our posts reference
-      dbRef.on("value", function(snapshot) {
+      const fetchimage = (snapshot) => {
+        dbRef.off("value",fetchimage)
         if(snapshot.val()){
+          // console.log('test')
+          // console.log(snapshot.val())
           var allTrees = Object.values(snapshot.val());
-          for (var i = 0; i < allTrees.length; i++){
-            if (allTrees[i].serialNumber == serialNumber){
+          // console.log('test')
+          // // console.log(allTrees[0])
+          // console.log(allTrees[0].length)
+          for (var i = 0; i < allTrees[0].length; i++){
+            if (allTrees[0][i].serialNumber == serialNumber){
               dbRef.child('trees').child(i).child('imagePath').set(name);
               break;
             }
           }
         }
-      }, function (errorObject) {
+        dbRef.off("value",fetchimage)
+      }
+      // Attach an asynchronous callback to read the data at our posts reference
+      dbRef.on("value", fetchimage,
+       function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
       
