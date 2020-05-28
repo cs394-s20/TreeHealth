@@ -111,10 +111,11 @@ const TreeCamera = ({route, navigation}) => {
   };
 
   const takePicture = async () => {
+    console.log("haha")
     if (cameraRef) {
       const options = { quality: 0.5, base64: true };
       let photo = await cameraRef.current.takePictureAsync();
-      console.log(photo.url);
+      // console.log(photo.url);
       console.log(photo.uri);
       const blob = await (await fetch(photo.uri)).blob();
       
@@ -126,16 +127,12 @@ const TreeCamera = ({route, navigation}) => {
 
       var dbRef = firebase.database().ref();
       const fetchimage = (snapshot) => {
-        dbRef.off("value",fetchimage)
+        // dbRef.off("value",fetchimage)
         if(snapshot.val()){
-          // console.log('test')
-          // console.log(snapshot.val())
-          var allTrees = Object.values(snapshot.val());
-          // console.log('test')
-          // // console.log(allTrees[0])
-          // console.log(allTrees[0].length)
-          for (var i = 0; i < allTrees[0].length; i++){
-            if (allTrees[0][i].serialNumber == serialNumber){
+          var allTrees = snapshot.val().trees;
+          console.log(snapshot.val().trees)
+          for (var i = 0; i < allTrees.length; i++){
+            if (allTrees[i].serialNumber === serialNumber){
               dbRef.child('trees').child(i).child('imagePath').set(name);
               break;
             }

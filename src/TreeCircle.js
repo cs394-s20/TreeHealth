@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
 const TreeCircle = ({ treeData, navigation }) => {
   
-  const [imageURIFirebase, setImageURIFirebase] = useState('');
+  const [imageURIFirebase, setImageURIFirebase] = useState('default');
   firebase.storage().ref().child(treeData.imagePath).getDownloadURL().then((url) => setImageURIFirebase(url));
   console.log('test')
   console.log(imageURIFirebase)

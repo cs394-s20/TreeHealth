@@ -197,7 +197,7 @@ function DetailsScreen({ route, navigation }) {
     selectedIndex
   );
 
-  const [imageURIFirebase, setImageURIFirebase] = useState('');
+  const [imageURIFirebase, setImageURIFirebase] = useState('default');
   firebase.storage().ref().child(treedata.imagePath).getDownloadURL().then((url) => setImageURIFirebase(url));
 
   return (
