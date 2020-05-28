@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { Avatar, Badge, Icon, withBadge } from "react-native-elements";
 import IconBadge from "react-native-icon-badge";
+import { Asset } from 'expo-asset';
+import firebase from './firebase';
+import { Assets } from "@react-navigation/stack";
 
 const styles = StyleSheet.create({
   container: {
@@ -43,6 +46,11 @@ const styles = StyleSheet.create({
 });
 
 const TreeCircle = ({ treeData, navigation }) => {
+  
+  const [imageURIFirebase, setImageURIFirebase] = useState('');
+  firebase.storage().ref().child(treeData.imagePath).getDownloadURL().then((url) => setImageURIFirebase(url));
+
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -63,7 +71,8 @@ const TreeCircle = ({ treeData, navigation }) => {
           <React.Fragment>
             <Image
               style={{ width: 150, height: 150, borderRadius: 75 }}
-              source={require("./testtree.png")}
+              // source={require("./testtree.png")}
+              source={{ uri: imageURIFirebase }}
             />
 
             <View>

@@ -11,6 +11,7 @@ import { Text, ButtonGroup, Avatar, Icon } from "react-native-elements";
 import * as Linking from "expo-linking";
 import Dialog from "react-native-dialog";
 import IconBadge from "react-native-icon-badge";
+import firebase from './firebase';
 import TreeCamera from "./TreeCamera";
 
 const styles = StyleSheet.create({
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
 
 const LowHealthPopup = ({ warningIsVisible }) => {
   const [showWarning, setShowWarning] = useState(warningIsVisible);
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const closePopup = () => {
     setShowWarning(false);
@@ -194,6 +195,9 @@ function DetailsScreen({ route, navigation }) {
     selectedIndex
   );
 
+  const [imageURIFirebase, setImageURIFirebase] = useState('');
+  firebase.storage().ref().child(treedata.imagePath).getDownloadURL().then((url) => setImageURIFirebase(url));
+
   return (
     <ScrollView style={styles.scrollView}>
       <React.Fragment>
@@ -222,88 +226,74 @@ function DetailsScreen({ route, navigation }) {
                 treedata.health == 0
                   ? styles.healthy_circle
                   : treedata.health == 1
-                  ? styles.warning_circle
-                  : styles.unhealthy_circle
+                    ? styles.warning_circle
+                    : styles.unhealthy_circle
               }
             >
               <View>
-                <Avatar
-                  icon={
-                    treedata.health === 0
-                      ? {
-                          name: "check-circle",
-                          type: "material-icons",
-                          color: "green",
-                        }
-                      : treedata.health === 1
-                      ? {
-                          name: "warning",
-                          type: "material-icons",
-                          color: "rgb(255,204,51)",
-                        }
-                      : {
-                          name: "error",
-                          type: "material-icons",
-                          color: "rgb(228,66,4)",
-                        }
-                  }
-                  rounded
-                  size="large"
-                  containerStyle={{ position: "absolute", top: -70, right: 5 }}
-                />
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("CameraPage")}
-                >
-                  <Avatar
-                    icon={{
-                      name: "camera-alt",
-                      type: "material-icons",
-                      color: "black",
-                    }}
-                    rounded
-                    size="medium"
-                    containerStyle={{
-                      position: "absolute",
-                      top: 30,
-                      right: 0,
-                      backgroundColor: "rgba(232, 232, 232, 1)",
-                    }}
+                <React.Fragment>
+                  <Image
+                    style={{ width: 150, height: 150, borderRadius: 75 }}
+                    source={{ uri: imageURIFirebase }}
+                    // source={require("./testtree.png")}
                   />
-                </TouchableOpacity>
-                <View>
-                  <IconBadge
-                    BadgeElement={
-                      treedata.health === 0 ? (
-                        <Image
-                          style={{ width: 50, height: 50 }}
-                          source={require("./healthy_tree.png")}
-                        />
-                      ) : treedata.health === 1 ? (
-                        <Image
-                          style={{ width: 50, height: 50 }}
-                          source={require("./declining_tree.png")}
-                        />
-                      ) : (
-                        <Image
-                          style={{ width: 50, height: 50 }}
-                          source={require("./dead_tree.png")}
-                        />
-                      )
-                    }
-                    IconBadgeStyle={{
-                      width: 60,
-                      height: 70,
-                      backgroundColor:
-                        treedata.health === 0
-                          ? "rgb(188,213,184)"
-                          : treedata.health === 1
-                          ? "rgba(239,223,180,255)"
-                          : "rgb(234,170,156)",
-                      marginRight: 45,
-                      marginTop: -20,
-                    }}
-                  />
-                </View>
+                  <View>
+                    <IconBadge
+                      BadgeElement={
+                        treedata.health === 0 ? (
+                          <Image
+                            style={{ width: 40, height: 40 }}
+                            source={require("./healthy_tree.png")}
+                          />
+                        ) : treedata.health === 1 ? (
+                          <Image
+                            style={{ width: 40, height: 40 }}
+                            source={require("./declining_tree.png")}
+                          />
+                        ) : (
+                              <Image
+                                style={{ width: 40, height: 40 }}
+                                source={require("./dead_tree.png")}
+                              />
+                            )
+                      }
+                      IconBadgeStyle={{
+                        width: 60,
+                        height: 60,
+                        borderRadius: 30,
+                        backgroundColor:
+                          treedata.health === 0
+                            ? "rgb(188,213,184)"
+                            : treedata.health === 1
+                              ? "rgba(239,223,180,255)"
+                              : "rgb(234,170,156)",
+                        marginRight: 0,
+                        marginTop: -150,
+                      }}
+                    />
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("CameraPage")}
+                  >
+                    <Avatar
+                      icon={{
+                        name: "camera-alt",
+                        type: "material-icons",
+                        color: "black",
+                      }}
+                      rounded
+                      size="medium"
+                      containerStyle={{
+                        position: "absolute",
+                        top: -40,
+                        right: 0,
+                        backgroundColor: "rgba(232, 232, 232, 1)",
+                      }}
+                    />
+                  </TouchableOpacity>
+
+                </React.Fragment>
               </View>
             </TouchableOpacity>
           </View>
@@ -332,30 +322,32 @@ function DetailsScreen({ route, navigation }) {
             color="rgb(86,140,201)"
           />
         </View>
-        {treedata.health !== 0 ? (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: 20,
-            }}
-          >
-            <Icon name="report-problem" type="material" color="orange" />
-            <Text>Tree's health is at risk. </Text>
-            <Text
-              onPress={() => {
-                Linking.openURL(
-                  "https://www.google.com/search?q=local+arborists"
-                );
+        {
+          treedata.health !== 0 ? (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 20,
               }}
-              style={{ color: "blue", textDecorationLine: "underline" }}
             >
-              Contact an arborist.
+              <Icon name="report-problem" type="material" color="orange" />
+              <Text>Tree's health is at risk. </Text>
+              <Text
+                onPress={() => {
+                  Linking.openURL(
+                    "https://www.google.com/search?q=local+arborists"
+                  );
+                }}
+                style={{ color: "blue", textDecorationLine: "underline" }}
+              >
+                Contact an arborist.
             </Text>
-            <LowHealthPopup warningIsVisible={treedata.health !== 0} />
-          </View>
-        ) : null}
+              <LowHealthPopup warningIsVisible={treedata.health !== 0} />
+            </View>
+          ) : null
+        }
         <Toggle
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
@@ -375,8 +367,8 @@ function DetailsScreen({ route, navigation }) {
             {VPDstartDate} - {VPDendDate}
           </Text>
         </View>
-      </React.Fragment>
-    </ScrollView>
+      </React.Fragment >
+    </ScrollView >
   );
 }
 

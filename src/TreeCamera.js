@@ -110,6 +110,7 @@ const TreeCamera = () => {
     if (cameraRef) {
       const options = { quality: 0.5, base64: true };
       let photo = await cameraRef.current.takePictureAsync();
+      console.log(photo.url);
       setCaptures([photo, ...captures]);
       MediaLibrary.saveToLibraryAsync(photo.uri);
     }
