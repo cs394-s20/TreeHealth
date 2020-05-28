@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as Permissions from "expo-permissions";
+import firebase from './firebase';
 import {
   FontAwesome,
   Ionicons,
@@ -75,11 +76,12 @@ const styles = StyleSheet.create({
     }
 });
 
-const TreeCamera = () => {
+const TreeCamera = ({route, navigation}) => {
   const [captures, setCaptures] = useState([]);
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   let cameraRef = useRef(null);
+  let serialNumber = route.params.serialNumber;
 
   useEffect(() => {
     getPermissionAsync();
@@ -111,8 +113,35 @@ const TreeCamera = () => {
       const options = { quality: 0.5, base64: true };
       let photo = await cameraRef.current.takePictureAsync();
       console.log(photo.url);
+      console.log(photo.uri);
+      const blob = await (await fetch(photo.uri)).blob();
+      
+      var storageRef = firebase.storage().ref();
+      var name = new Date().getTime().toString();
+      storageRef.child(name).put(blob, {
+        contentType: 'image/jpeg'
+      });
+
+      var dbRef = firebase.database().ref();
+
+      // Attach an asynchronous callback to read the data at our posts reference
+      dbRef.on("value", function(snapshot) {
+        if(snapshot.val()){
+          var allTrees = Object.values(snapshot.val());
+          for (var i = 0; i < allTrees.length; i++){
+            if (allTrees[i].serialNumber == serialNumber){
+              dbRef.child('trees').child(i).child('imagePath').set(name);
+              break;
+            }
+          }
+        }
+      }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
+      
+      // use react native image picker ? 
       setCaptures([photo, ...captures]);
-      MediaLibrary.saveToLibraryAsync(photo.uri);
+      // MediaLibrary.saveToLibraryAsync(photo.uri);
     }
   };
 

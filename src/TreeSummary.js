@@ -68,6 +68,8 @@ const LowHealthPopup = ({ warningIsVisible }) => {
   const findArborist = () => {
     setShowWarning(false);
     Linking.openURL("https://www.google.com/search?q=local+arborists");
+    Linking.openURL("https://www.google.com/search?q=local+arborists");
+
   };
 
   return (
@@ -221,7 +223,7 @@ function DetailsScreen({ route, navigation }) {
           </View>*/}
           <View style={styles.container}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("CameraPage")}
+              onPress={() => navigation.navigate("CameraPage", {serialNumber: treedata.serialNumber})}
               style={
                 treedata.health == 0
                   ? styles.healthy_circle
@@ -287,7 +289,7 @@ function DetailsScreen({ route, navigation }) {
                       containerStyle={{
                         position: "absolute",
                         top: -40,
-                        right: 0,
+                        right: 200,
                         backgroundColor: "rgba(232, 232, 232, 1)",
                       }}
                     />
