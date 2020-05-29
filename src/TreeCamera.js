@@ -111,12 +111,14 @@ const TreeCamera = ({route, navigation}) => {
   };
 
   const takePicture = async () => {
-    console.log("haha")
+    //console.log("haha")
     if (cameraRef) {
       const options = { quality: 0.5, base64: true };
       let photo = await cameraRef.current.takePictureAsync();
+      setCaptures([photo, ...captures]);
+      MediaLibrary.saveToLibraryAsync(photo.uri);
       // console.log(photo.url);
-      console.log(photo.uri);
+      //console.log(photo.uri);
       const blob = await (await fetch(photo.uri)).blob();
       
       var storageRef = firebase.storage().ref();
@@ -130,7 +132,7 @@ const TreeCamera = ({route, navigation}) => {
         // dbRef.off("value",fetchimage)
         if(snapshot.val()){
           var allTrees = snapshot.val().trees;
-          console.log(snapshot.val().trees)
+          //console.log(snapshot.val().trees)
           for (var i = 0; i < allTrees.length; i++){
             if (allTrees[i].serialNumber === serialNumber){
               dbRef.child('trees').child(i).child('imagePath').set(name);
@@ -144,18 +146,42 @@ const TreeCamera = ({route, navigation}) => {
       dbRef.on("value", fetchimage,
        function (errorObject) {
         console.log("The read failed: " + errorObject.code);
-      });
-      
-      // use react native image picker ? 
-      setCaptures([photo, ...captures]);
-      // MediaLibrary.saveToLibraryAsync(photo.uri);
+      }); 
     }
   };
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    let photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
+    const blob = await (await fetch(photo.uri)).blob();
+      
+    var storageRef = firebase.storage().ref();
+    var name = new Date().getTime().toString()+'.jpg';
+    storageRef.child(name).put(blob, {
+      contentType: 'image/jpeg'
+    });
+
+    var dbRef = firebase.database().ref();
+    const fetchimage = (snapshot) => {
+      // dbRef.off("value",fetchimage)
+      if(snapshot.val()){
+        var allTrees = snapshot.val().trees;
+        //console.log(snapshot.val().trees)
+        for (var i = 0; i < allTrees.length; i++){
+          if (allTrees[i].serialNumber === serialNumber){
+            dbRef.child('trees').child(i).child('imagePath').set(name);
+            break;
+          }
+        }
+      }
+      dbRef.off("value",fetchimage)
+    }
+    // Attach an asynchronous callback to read the data at our posts reference
+    dbRef.on("value", fetchimage,
+     function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    }); 
   };
 
   const Gallery = ({captures=[]}) => (

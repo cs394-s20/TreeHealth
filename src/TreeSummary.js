@@ -211,16 +211,7 @@ function DetailsScreen({ route, navigation }) {
           }}
         >
           <Text h3>{treedata.name}</Text>
-          {/*<View
-            style={
-              treedata.health == 0
-                ? styles.healthy_circle
-                : treedata.health == 1
-                ? styles.warning_circle
-                : styles.unhealthy_circle
-            }
-          >
-          </View>*/}
+ 
           <View style={styles.container}>
             <TouchableOpacity
               onPress={() => navigation.navigate("CameraPage", {serialNumber: treedata.serialNumber})}
@@ -276,7 +267,7 @@ function DetailsScreen({ route, navigation }) {
                   </View>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("CameraPage")}
+                    onPress={() => navigation.navigate("CameraPage", {serialNumber: treedata.serialNumber})}
                   >
                     <Avatar
                       icon={{
