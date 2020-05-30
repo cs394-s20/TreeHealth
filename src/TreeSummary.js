@@ -68,9 +68,7 @@ const LowHealthPopup = ({ warningIsVisible }) => {
 
   const findArborist = () => {
     setShowWarning(false);
-    Linking.openURL("https://www.google.com/search?q=local+arborists");
-    Linking.openURL("https://www.google.com/search?q=local+arborists");
-
+    Linking.openURL("https://www.treesaregood.org/findanarborist/findanarborist");
   };
 
   return (
