@@ -64,7 +64,7 @@ const TreeCircle = ({ treeData, navigation }) => {
             : styles.unhealthy_circle
         }
         onPress={() =>
-          navigation.navigate("TreeSummary", {
+          navigation.navigate("Health Summary", {
             treedata: treeData,
           })
         }

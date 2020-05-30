@@ -75,12 +75,12 @@ const LowHealthPopup = ({ warningIsVisible }) => {
   return (
     <View>
       <Dialog.Container visible={showWarning}>
-        <Dialog.Title>Low Health!</Dialog.Title>
+        <Dialog.Title>Health at Risk</Dialog.Title>
         <Dialog.Description>
-          Oh no! Seems like this tree's health is low.
+         This tree’s health is declining. We recommend contacting a local arborist.
         </Dialog.Description>
-        <Dialog.Button label="Sadness. Ok." onPress={closePopup} />
-        <Dialog.Button label="Find an Arborist" onPress={findArborist} />
+        <Dialog.Button label="Find Arborist" onPress={findArborist} />
+        <Dialog.Button label="Dismiss" onPress={closePopup} />
       </Dialog.Container>
     </View>
   );
@@ -197,6 +197,12 @@ function DetailsScreen({ route, navigation }) {
     selectedIndex
   );
 
+  const [HIData, HIstartDate, HIendDate] = constructData(
+    treedata,
+    "H_index", 
+    selectedIndex
+  );
+
   const [imageURIFirebase, setImageURIFirebase] = useState('default');
   firebase.storage().ref().child(treedata.imagePath).getDownloadURL().then((url) => setImageURIFirebase(url));
 
@@ -214,7 +220,7 @@ function DetailsScreen({ route, navigation }) {
  
           <View style={styles.container}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("CameraPage", {serialNumber: treedata.serialNumber})}
+              onPress={() => navigation.navigate("Camera", {serialNumber: treedata.serialNumber})}
               style={
                 treedata.health == 0
                   ? styles.healthy_circle
@@ -267,7 +273,7 @@ function DetailsScreen({ route, navigation }) {
                   </View>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("CameraPage", {serialNumber: treedata.serialNumber})}
+                    onPress={() => navigation.navigate("Camera", {serialNumber: treedata.serialNumber})}
                   >
                     <Avatar
                       icon={{
@@ -300,13 +306,13 @@ function DetailsScreen({ route, navigation }) {
             marginBottom: 20,
           }}
         >
-          <Text style={{ textAlign: "left", marginRight: 10 }}>
+          {/*<Text style={{ textAlign: "left", marginRight: 10 }}>
             SAP FLOW:{" "}
             {treedata.data[treedata.data.length - 1].sapFlow.toFixed(2)}
           </Text>
           <Text style={{ textAlign: "right" }}>
             VPD: {treedata.data[treedata.data.length - 1].VPD}
-          </Text>
+          </Text>*/}
           <Icon
             name="info"
             style={{ marginLeft: 10 }}
@@ -316,7 +322,32 @@ function DetailsScreen({ route, navigation }) {
           />
         </View>
         {
-          treedata.health !== 0 ? (
+          treedata.health === 0 ? 
+          (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 20,
+              }}
+            >
+              <Icon name="check-circle" type="material-icons" color="lightgreen" />
+              <Text> Tree is in good health.</Text>
+              <Text
+                onPress={() => {
+                  Linking.openURL(
+                    "https://www.treesaregood.org/findanarborist/findanarborist"                  );
+                }}
+                style={{ color: "blue", textDecorationLine: "underline" }}
+              >
+                Find an arborist.
+            </Text>
+              <LowHealthPopup warningIsVisible={treedata.health !== 0} />
+            </View>
+          ) :
+          treedata.health !== 1 ?
+          (
             <View
               style={{
                 flexDirection: "row",
@@ -330,12 +361,11 @@ function DetailsScreen({ route, navigation }) {
               <Text
                 onPress={() => {
                   Linking.openURL(
-                    "https://www.google.com/search?q=local+arborists"
-                  );
+                    "https://www.treesaregood.org/findanarborist/findanarborist"                  );
                 }}
                 style={{ color: "blue", textDecorationLine: "underline" }}
               >
-                Contact an arborist.
+                Find an arborist.
             </Text>
               <LowHealthPopup warningIsVisible={treedata.health !== 0} />
             </View>
@@ -348,14 +378,22 @@ function DetailsScreen({ route, navigation }) {
         <View style={{ alignItems: "center", justifyContent: "center" }}>
           <Text style={{ fontWeight: "bold", marginTop: 15 }}>
             {" "}
+            Health Index {" "}
+          </Text>
+          <TreeChart data={HIData} zero={false} />
+          <Text style={{ marginBottom: 40, marginTop: 0 }}>
+            {SAPstartDate} - {SAPendDate}
+          </Text>
+          <Text style={{ fontWeight: "bold", marginTop: 15 }}>
+            {" "}
             Sap Flow (cm/hr){" "}
           </Text>
-          <TreeChart data={sapFlowData} />
+          <TreeChart data={sapFlowData} zero={true}/>
           <Text style={{ marginBottom: 40, marginTop: 0 }}>
             {SAPstartDate} - {SAPendDate}
           </Text>
           <Text style={{ fontWeight: "bold" }}> VPD (kPa)</Text>
-          <TreeChart data={VPDData} />
+          <TreeChart data={VPDData} zero={true}/>
           <Text style={{ marginBottom: 40, marginTop: 0 }}>
             {VPDstartDate} - {VPDendDate}
           </Text>

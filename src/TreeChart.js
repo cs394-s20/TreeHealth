@@ -26,7 +26,7 @@ const chartConfig = {
   }
 };
 
-const TreeChart = ({ data }) => {
+const TreeChart = ({ data, zero}) => {
   return (
     <View style={{ marginBottom: 0 }}>
       <LineChart
@@ -36,6 +36,7 @@ const TreeChart = ({ data }) => {
         chartConfig={chartConfig}
         bezier
         style={{ marginBottom: -20}}
+        fromZero={zero}
       />
     </View>
   );

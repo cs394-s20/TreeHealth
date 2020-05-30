@@ -47,10 +47,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="TreeHealth" component={HomeScreen} />
-        <Stack.Screen name="TreeSummary" component={DetailsScreen} />
+        <Stack.Screen name="My Forest" component={HomeScreen} />
+        <Stack.Screen name="Health Summary" component={DetailsScreen} />
         <Stack.Screen name="HelpPage" component={HelpPage} />
-        <Stack.Screen name="CameraPage" component={TreeCamera} />
+        <Stack.Screen name="Camera" component={TreeCamera} />
       </Stack.Navigator>
     </NavigationContainer>
   );
