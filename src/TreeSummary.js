@@ -4,6 +4,7 @@ import {
   Image,
   View,
   ScrollView,
+  Alert
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import TreeChart from "./TreeChart";
@@ -313,13 +314,6 @@ function DetailsScreen({ route, navigation }) {
           <Text style={{ textAlign: "right" }}>
             VPD: {treedata.data[treedata.data.length - 1].VPD}
           </Text>*/}
-          <Icon
-            name="info"
-            style={{ marginLeft: 10 }}
-            type="material"
-            onPress={() => navigation.navigate("HelpPage")}
-            color="rgb(86,140,201)"
-          />
         </View>
         {
           treedata.health === 0 ? 
@@ -376,10 +370,22 @@ function DetailsScreen({ route, navigation }) {
           setSelectedIndex={setSelectedIndex}
         />
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Text style={{ fontWeight: "bold", marginTop: 15 }}>
-            {" "}
-            Health Index {" "}
-          </Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{ textAlign: "left", fontWeight: "bold", marginLeft: 10, marginTop: 15 }}>
+              Health Index 
+            </Text>
+            <Icon
+              name="info"
+              style={{ marginTop: 10, marginLeft: 10}}
+              type="material"
+              onPress={() => Alert.alert("How is the Health Index calculated?", 
+                                         "By measuring VPD on the same time scale as sap flow, we learn how strong the air pressure is sucking sap up the tree. As a result, we can use sap flow and VPD data to accurately describe and track the health of a tree over time. If VPD is low, sap flow is expected to be low. However, if VPD is high and sap flow is low, tree function could be declining. Declines in sap flow caused by stressors like infections and drought precede all visible signs of tree decay such as canopy deterioration, wood rot, and instability."
+                                         )}
+              color="rgb(86,140,201)"
+            />              
+           </View>
+          <View>
+          </View>
           <TreeChart data={HIData} zero={false} />
           <Text style={{ marginBottom: 40, marginTop: 0 }}>
             {HIstartDate} - {HIendDate}
