@@ -8,6 +8,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import DetailsScreen from "./src/TreeSummary";
 import HelpPage from "./src/HelpPage";
 import TreeCamera from "./src/TreeCamera";
+import MoreGraphsPage from "./src/MoreGraphsPage";
 
 
 const db = firebase.database().ref();
@@ -51,6 +52,7 @@ const App = () => {
         <Stack.Screen name="Health Summary" component={DetailsScreen} />
         <Stack.Screen name="HelpPage" component={HelpPage} />
         <Stack.Screen name="Camera" component={TreeCamera} />
+        <Stack.Screen name="MoreGraphs" component={MoreGraphsPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

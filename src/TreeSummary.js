@@ -382,21 +382,13 @@ function DetailsScreen({ route, navigation }) {
           </Text>
           <TreeChart data={HIData} zero={false} />
           <Text style={{ marginBottom: 40, marginTop: 0 }}>
-            {SAPstartDate} - {SAPendDate}
+            {HIstartDate} - {HIendDate}
           </Text>
-          <Text style={{ fontWeight: "bold", marginTop: 15 }}>
-            {" "}
-            Sap Flow (cm/hr){" "}
-          </Text>
-          <TreeChart data={sapFlowData} zero={true}/>
-          <Text style={{ marginBottom: 40, marginTop: 0 }}>
-            {SAPstartDate} - {SAPendDate}
-          </Text>
-          <Text style={{ fontWeight: "bold" }}> VPD (kPa)</Text>
-          <TreeChart data={VPDData} zero={true}/>
-          <Text style={{ marginBottom: 40, marginTop: 0 }}>
-            {VPDstartDate} - {VPDendDate}
-          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("MoreGraphs", {HIData: HIData, sapFlowData: sapFlowData, VPDData: VPDData, start: VPDstartDate, end: VPDendDate, selectedIndex: selectedIndex})}
+          >
+            <Text style={{color:"blue"}}> Show More </Text>
+          </TouchableOpacity>
         </View>
       </React.Fragment >
     </ScrollView >
