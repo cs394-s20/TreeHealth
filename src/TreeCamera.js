@@ -156,34 +156,34 @@ const TreeCamera = ({route, navigation}) => {
     let photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
-    const blob = await (await fetch(photo.uri)).blob();
+      const blob = await (await fetch(photo.uri)).blob();
       
-    var storageRef = firebase.storage().ref();
-    var name = new Date().getTime().toString()+'.jpg';
-    storageRef.child(name).put(blob, {
-      contentType: 'image/jpeg'
-    });
-
-    var dbRef = firebase.database().ref();
-    const fetchimage = (snapshot) => {
-      // dbRef.off("value",fetchimage)
-      if(snapshot.val()){
-        var allTrees = snapshot.val().trees;
-        //console.log(snapshot.val().trees)
-        for (var i = 0; i < allTrees.length; i++){
-          if (allTrees[i].serialNumber === serialNumber){
-            dbRef.child('trees').child(i).child('imagePath').set(name);
-            break;
+      var storageRef = firebase.storage().ref();
+      var name = new Date().getTime().toString()+'.jpg';
+      storageRef.child(name).put(blob, {
+        contentType: 'image/jpeg'
+      }).then(() => {
+        var dbRef = firebase.database().ref();
+        const fetchimage = (snapshot) => {
+          // dbRef.off("value",fetchimage)
+          if(snapshot.val()){
+            var allTrees = snapshot.val().trees;
+            //console.log(snapshot.val().trees)
+            for (var i = 0; i < allTrees.length; i++){
+              if (allTrees[i].serialNumber === serialNumber){
+                dbRef.child('trees').child(i).child('imagePath').set(name);
+                break;
+              }
+            }
           }
+          dbRef.off("value",fetchimage)
         }
-      }
-      dbRef.off("value",fetchimage)
-    }
-    // Attach an asynchronous callback to read the data at our posts reference
-    dbRef.on("value", fetchimage,
-     function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    }); 
+        // Attach an asynchronous callback to read the data at our posts reference
+        dbRef.on("value", fetchimage,
+        function (errorObject) {
+          console.log("The read failed: " + errorObject.code);
+        });
+    });
   };
 
   const Gallery = ({captures=[]}) => (
