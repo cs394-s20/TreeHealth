@@ -26,16 +26,15 @@ const chartConfig = {
   },
 };
 
-const TreeChart = ({ data, zero }) => {
-  let testdata = data;
-  const maxValue = { data: [10], color: () => `rgba(0, 0, 0, 0)` };
-  testdata.datasets.push(maxValue);
-  // testdata.labels.push("");
+const TreeChart = ({ data, zero}) => {
+  let testdata = JSON.parse(JSON.stringify(data));
+  const maxValue = {data: [10], color: () => `rgba(0, 0, 0, 0)` }
+  testdata.datasets.push(maxValue)
 
   return (
     <View style={{ marginBottom: 0 }}>
       <LineChart
-        data={data}
+        data={testdata}
         width={screenWidth}
         height={200}
         chartConfig={chartConfig}
