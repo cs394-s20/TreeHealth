@@ -4,7 +4,7 @@ import {
   Image,
   View,
   ScrollView,
-  Alert
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import TreeChart from "./TreeChart";
@@ -12,7 +12,7 @@ import { Text, ButtonGroup, Avatar, Icon } from "react-native-elements";
 import * as Linking from "expo-linking";
 import Dialog from "react-native-dialog";
 import IconBadge from "react-native-icon-badge";
-import firebase from './firebase';
+import firebase from "./firebase";
 import TreeCamera from "./TreeCamera";
 
 const styles = StyleSheet.create({
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 
 const LowHealthPopup = ({ warningIsVisible }) => {
   const [showWarning, setShowWarning] = useState(warningIsVisible);
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const closePopup = () => {
     setShowWarning(false);
@@ -68,7 +68,9 @@ const LowHealthPopup = ({ warningIsVisible }) => {
 
   const findArborist = () => {
     setShowWarning(false);
-    Linking.openURL("https://www.treesaregood.org/findanarborist/findanarborist");
+    Linking.openURL(
+      "https://www.treesaregood.org/findanarborist/findanarborist"
+    );
   };
 
   return (
@@ -76,7 +78,8 @@ const LowHealthPopup = ({ warningIsVisible }) => {
       <Dialog.Container visible={showWarning}>
         <Dialog.Title>Health at Risk</Dialog.Title>
         <Dialog.Description>
-         This tree’s health is declining. We recommend contacting a local arborist.
+          This tree’s health is declining. We recommend contacting a local
+          arborist.
         </Dialog.Description>
         <Dialog.Button label="Find Arborist" onPress={findArborist} />
         <Dialog.Button label="Dismiss" onPress={closePopup} />
@@ -94,19 +97,26 @@ const constructData = (treeData, datatype, viewtype) => {
   // Week View
   if (viewtype === 0) {
     for (
-      let i = treeData["data"].length - 8;
+      let i = treeData["data"].length - 7;
       i < treeData["data"].length;
       i++
     ) {
-      if (i === treeData["data"].length - 8) {
+      if (i === treeData["data"].length - 7) {
         startDate = treeData["data"][i]["date"];
       }
       if (i === treeData["data"].length - 1) {
         endDate = treeData["data"][i]["date"];
       }
       datasets.push(treeData["data"][i][datatype]);
-      labels.push("");
+
+      labels.push(
+        treeData["data"][i]["date"].slice(
+          0,
+          treeData["data"][i]["date"].length - 5
+        )
+      );
     }
+    console.log(labels.length);
   }
 
   // Month View
@@ -123,7 +133,17 @@ const constructData = (treeData, datatype, viewtype) => {
         endDate = treeData["data"][i]["date"];
       }
       datasets.push(treeData["data"][i][datatype]);
-      labels.push("");
+
+      if (i % 6 === 5) {
+        labels.push(
+          treeData["data"][i]["date"].slice(
+            0,
+            treeData["data"][i]["date"].length - 5
+          )
+        );
+      } else {
+        labels.push("");
+      }
     }
   }
 
@@ -144,8 +164,18 @@ const constructData = (treeData, datatype, viewtype) => {
       if (i === treeData["data"].length - 1) {
         endDate = treeData["data"][i]["date"];
       }
-      labels.push("");
       datasets.push(treeData["data"][i][datatype]);
+
+      if (i % 28 === 0) {
+        labels.push(
+          treeData["data"][i]["date"].slice(
+            0,
+            treeData["data"][i]["date"].length - 5
+          )
+        );
+      } else {
+        labels.push("");
+      }
     }
   }
 
@@ -198,12 +228,17 @@ function DetailsScreen({ route, navigation }) {
 
   const [HIData, HIstartDate, HIendDate] = constructData(
     treedata,
-    "H_index", 
+    "H_index",
     selectedIndex
   );
 
-  const [imageURIFirebase, setImageURIFirebase] = useState('default');
-  firebase.storage().ref().child(treedata.imagePath).getDownloadURL().then((url) => setImageURIFirebase(url));
+  const [imageURIFirebase, setImageURIFirebase] = useState("default");
+  firebase
+    .storage()
+    .ref()
+    .child(treedata.imagePath)
+    .getDownloadURL()
+    .then((url) => setImageURIFirebase(url));
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -216,16 +251,20 @@ function DetailsScreen({ route, navigation }) {
           }}
         >
           <Text h3>{treedata.name}</Text>
- 
+
           <View style={styles.container}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Camera", {serialNumber: treedata.serialNumber})}
+              onPress={() =>
+                navigation.navigate("Camera", {
+                  serialNumber: treedata.serialNumber,
+                })
+              }
               style={
                 treedata.health == 0
                   ? styles.healthy_circle
                   : treedata.health == 1
-                    ? styles.warning_circle
-                    : styles.unhealthy_circle
+                  ? styles.warning_circle
+                  : styles.unhealthy_circle
               }
             >
               <View>
@@ -249,11 +288,11 @@ function DetailsScreen({ route, navigation }) {
                             source={require("./declining_tree.png")}
                           />
                         ) : (
-                              <Image
-                                style={{ width: 40, height: 40 }}
-                                source={require("./dead_tree.png")}
-                              />
-                            )
+                          <Image
+                            style={{ width: 40, height: 40 }}
+                            source={require("./dead_tree.png")}
+                          />
+                        )
                       }
                       IconBadgeStyle={{
                         width: 60,
@@ -263,8 +302,8 @@ function DetailsScreen({ route, navigation }) {
                           treedata.health === 0
                             ? "rgb(188,213,184)"
                             : treedata.health === 1
-                              ? "rgba(239,223,180,255)"
-                              : "rgb(234,170,156)",
+                            ? "rgba(239,223,180,255)"
+                            : "rgb(234,170,156)",
                         marginRight: 0,
                         marginTop: -150,
                       }}
@@ -272,7 +311,11 @@ function DetailsScreen({ route, navigation }) {
                   </View>
 
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("Camera", {serialNumber: treedata.serialNumber})}
+                    onPress={() =>
+                      navigation.navigate("Camera", {
+                        serialNumber: treedata.serialNumber,
+                      })
+                    }
                   >
                     <Avatar
                       icon={{
@@ -290,7 +333,6 @@ function DetailsScreen({ route, navigation }) {
                       }}
                     />
                   </TouchableOpacity>
-
                 </React.Fragment>
               </View>
             </TouchableOpacity>
@@ -313,89 +355,110 @@ function DetailsScreen({ route, navigation }) {
             VPD: {treedata.data[treedata.data.length - 1].VPD}
           </Text>*/}
         </View>
-        {
-          treedata.health === 0 ? 
-          (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 20,
+        {treedata.health === 0 ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 20,
+            }}
+          >
+            <Icon
+              name="check-circle"
+              type="material-icons"
+              color="lightgreen"
+            />
+            <Text> Tree is in good health.</Text>
+            <Text
+              onPress={() => {
+                Linking.openURL(
+                  "https://www.treesaregood.org/findanarborist/findanarborist"
+                );
               }}
+              style={{ color: "blue", textDecorationLine: "underline" }}
             >
-              <Icon name="check-circle" type="material-icons" color="lightgreen" />
-              <Text> Tree is in good health.</Text>
-              <Text
-                onPress={() => {
-                  Linking.openURL(
-                    "https://www.treesaregood.org/findanarborist/findanarborist"                  );
-                }}
-                style={{ color: "blue", textDecorationLine: "underline" }}
-              >
-                Find an arborist.
+              Find an arborist.
             </Text>
-              <LowHealthPopup warningIsVisible={treedata.health !== 0} />
-            </View>
-          ) :
-          treedata.health !== 1 ?
-          (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: 20,
+            <LowHealthPopup warningIsVisible={treedata.health !== 0} />
+          </View>
+        ) : treedata.health !== 1 ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 20,
+            }}
+          >
+            <Icon name="report-problem" type="material" color="orange" />
+            <Text>Tree's health is at risk. </Text>
+            <Text
+              onPress={() => {
+                Linking.openURL(
+                  "https://www.treesaregood.org/findanarborist/findanarborist"
+                );
               }}
+              style={{ color: "blue", textDecorationLine: "underline" }}
             >
-              <Icon name="report-problem" type="material" color="orange" />
-              <Text>Tree's health is at risk. </Text>
-              <Text
-                onPress={() => {
-                  Linking.openURL(
-                    "https://www.treesaregood.org/findanarborist/findanarborist"                  );
-                }}
-                style={{ color: "blue", textDecorationLine: "underline" }}
-              >
-                Find an arborist.
+              Find an arborist.
             </Text>
-              <LowHealthPopup warningIsVisible={treedata.health !== 0} />
-            </View>
-          ) : null
-        }
+            <LowHealthPopup warningIsVisible={treedata.health !== 0} />
+          </View>
+        ) : null}
         <Toggle
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
         />
         <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ textAlign: "left", fontWeight: "bold", marginLeft: 10, marginTop: 15 }}>
-              Health Index 
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Text
+              style={{
+                textAlign: "left",
+                fontWeight: "bold",
+                marginLeft: 10,
+                marginTop: 15,
+              }}
+            >
+              Health Index
             </Text>
             <Icon
               name="info"
-              style={{ marginTop: 10, marginLeft: 10}}
+              style={{ marginTop: 10, marginLeft: 10 }}
               type="material"
-              onPress={() => Alert.alert("How is the Health Index calculated?", 
-                                         "By measuring VPD on the same time scale as sap flow, we learn how strong the air pressure is sucking sap up the tree. As a result, we can use sap flow and VPD data to accurately describe and track the health of a tree over time. If VPD is low, sap flow is expected to be low. However, if VPD is high and sap flow is low, tree function could be declining. Declines in sap flow caused by stressors like infections and drought precede all visible signs of tree decay such as canopy deterioration, wood rot, and instability."
-                                         )}
+              onPress={() =>
+                Alert.alert(
+                  "How is the Health Index calculated?",
+                  "By measuring VPD on the same time scale as sap flow, we learn how strong the air pressure is sucking sap up the tree. As a result, we can use sap flow and VPD data to accurately describe and track the health of a tree over time. If VPD is low, sap flow is expected to be low. However, if VPD is high and sap flow is low, tree function could be declining. Declines in sap flow caused by stressors like infections and drought precede all visible signs of tree decay such as canopy deterioration, wood rot, and instability."
+                )
+              }
               color="rgb(86,140,201)"
-            />              
-           </View>
-          <View>
+            />
           </View>
+          <View></View>
           <TreeChart data={HIData} zero={false} />
-          <Text style={{ marginBottom: 40, marginTop: 0 }}>
+          <Text style={{ marginBottom: 30, marginTop: 30 }}>
             {HIstartDate} - {HIendDate}
           </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate("MoreGraphs", {HIData: HIData, sapFlowData: sapFlowData, VPDData: VPDData, start: VPDstartDate, end: VPDendDate, selectedIndex: selectedIndex})}
+            onPress={() =>
+              navigation.navigate("MoreGraphs", {
+                HIData: HIData,
+                sapFlowData: sapFlowData,
+                VPDData: VPDData,
+                start: VPDstartDate,
+                end: VPDendDate,
+                selectedIndex: selectedIndex,
+              })
+            }
           >
-            <Text style={{color:"blue"}}> Show More </Text>
+            <Text style={{ color: "blue" }}> Show More </Text>
           </TouchableOpacity>
         </View>
-      </React.Fragment >
-    </ScrollView >
+      </React.Fragment>
+    </ScrollView>
   );
 }
 

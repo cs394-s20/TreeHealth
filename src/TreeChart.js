@@ -21,9 +21,9 @@ const chartConfig = {
   propsForDots: {
     r: "0",
   },
-  propsForBackgroundLines:{
-    strokeWidth:"0",
-  }
+  propsForBackgroundLines: {
+    strokeWidth: "0",
+  },
 };
 
 const TreeChart = ({ data, zero}) => {
@@ -39,8 +39,10 @@ const TreeChart = ({ data, zero}) => {
         height={200}
         chartConfig={chartConfig}
         bezier
-        style={{ marginBottom: -20}}
+        style={{ marginBottom: -20 }}
         fromZero={zero}
+        xLabelsOffset={10}
+        verticalLabelRotation={-45}
       />
     </View>
   );
