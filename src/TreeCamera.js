@@ -113,8 +113,10 @@ const TreeCamera = ({route, navigation}) => {
   const takePicture = async () => {
     //console.log("haha")
     if (cameraRef) {
-      const options = { quality: 0.5, base64: true };
-      let photo = await cameraRef.current.takePictureAsync();
+      //console.log((await cameraRef.current.getAvailablePictureSizesAsync(""))[0])
+      const options = { quality: 0.1, base64: true};
+
+      let photo = await cameraRef.current.takePictureAsync(options);
       setCaptures([photo, ...captures]);
       MediaLibrary.saveToLibraryAsync(photo.uri);
       // console.log(photo.url);
@@ -205,7 +207,7 @@ const TreeCamera = ({route, navigation}) => {
     <Text>No access to camera</Text>
   ) : (
     <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 1 }} type={cameraType} ref={cameraRef}>
+      <Camera style={{ flex: 1 }} type={cameraType} pictureSize={"640x480"} ref={cameraRef}>
       {captures.length > 0 && <Gallery captures={captures}/>}
         <View
           style={{

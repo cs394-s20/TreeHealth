@@ -52,7 +52,7 @@ const App = () => {
         <Stack.Screen name="Health Summary" component={DetailsScreen} />
         <Stack.Screen name="HelpPage" component={HelpPage} />
         <Stack.Screen name="Camera" component={TreeCamera} />
-        <Stack.Screen name="MoreGraphs" component={MoreGraphsPage} />
+        <Stack.Screen name="More" component={MoreGraphsPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

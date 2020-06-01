@@ -328,7 +328,7 @@ function DetailsScreen({ route, navigation }) {
                       containerStyle={{
                         position: "absolute",
                         top: -40,
-                        right: 200,
+                        right: 5,
                         backgroundColor: "rgba(232, 232, 232, 1)",
                       }}
                     />
@@ -369,14 +369,14 @@ function DetailsScreen({ route, navigation }) {
               type="material-icons"
               color="lightgreen"
             />
-            <Text> Tree is in good health.</Text>
+            <Text> Tree is in good health. </Text>
             <Text
               onPress={() => {
                 Linking.openURL(
                   "https://www.treesaregood.org/findanarborist/findanarborist"
                 );
               }}
-              style={{ color: "blue", textDecorationLine: "underline" }}
+              style={{ color: "blue", textDecorationLine: "underline"}}
             >
               Find an arborist.
             </Text>
@@ -444,7 +444,7 @@ function DetailsScreen({ route, navigation }) {
           </Text>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("MoreGraphs", {
+              navigation.navigate("More", {
                 HIData: HIData,
                 sapFlowData: sapFlowData,
                 VPDData: VPDData,
