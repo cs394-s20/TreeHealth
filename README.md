@@ -27,7 +27,13 @@ npm start
 
 - The first command will install all the dependicies required by the app and the second command will start the simulator. After running these commands you should be redirected to the Expo webbrowser where you will want to click "Run iOS Simulator" or "Run Android Simulator" depedning on your machine's operating system. You will see a mock phone pop up and the TreeHealth app will begin to download.
 
-- You can now interact with the app as normal.
+You can now interact with the app as normal.
+
+## How To Build And Deploy The App
+
+## Platform Constraints, Both for Development and Deployment:
+
+Since we are using React Native, sometimes there are discrepnscies between functions/packages used for the iOS software versus the windows software. This leads to some UI/visual elements changing based on which software you are using. However, it should never effect the functionality of the app.
 
 ## Known Bugs and Issues:
 
