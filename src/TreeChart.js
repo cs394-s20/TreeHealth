@@ -21,17 +21,17 @@ const chartConfig = {
   propsForDots: {
     r: "0",
   },
-  propsForBackgroundLines:{
-    strokeWidth:"0",
-  }
+  propsForBackgroundLines: {
+    strokeWidth: "0",
+  },
 };
 
-const TreeChart = ({ data, zero}) => {
+const TreeChart = ({ data, zero }) => {
   let testdata = data;
-  const maxValue = {data: [10], color: () => `rgba(0, 0, 0, 0)` }
-  testdata.datasets.push(maxValue)
-  testdata.labels.push("")
-  
+  const maxValue = { data: [10], color: () => `rgba(0, 0, 0, 0)` };
+  testdata.datasets.push(maxValue);
+  // testdata.labels.push("");
+
   return (
     <View style={{ marginBottom: 0 }}>
       <LineChart
@@ -40,8 +40,10 @@ const TreeChart = ({ data, zero}) => {
         height={200}
         chartConfig={chartConfig}
         bezier
-        style={{ marginBottom: -20}}
+        style={{ marginBottom: -20 }}
         fromZero={zero}
+        xLabelsOffset={10}
+        verticalLabelRotation={-45}
       />
     </View>
   );
