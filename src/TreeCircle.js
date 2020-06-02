@@ -38,20 +38,13 @@ const styles = StyleSheet.create({
   name: {
     textAlign: "center",
     fontSize: 25,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 10,
-  },
+  }
 });
 
 const TreeCircle = ({ treeData, navigation }) => {
   
   const [imageURIFirebase, setImageURIFirebase] = useState('default');
   firebase.storage().ref().child(treeData.imagePath).getDownloadURL().then((url) => setImageURIFirebase(url));
-  //console.log('test')
-  //console.log(imageURIFirebase)
-
 
   return (
     <View style={styles.container}>
@@ -111,19 +104,6 @@ const TreeCircle = ({ treeData, navigation }) => {
                 }}
               />
             </View>
-            {/*<Avatar 
-            icon={treeData.health === 0 ? {name:'check-circle',
-            type:'material-icons',color:'green'} :
-            treeData.health === 1 ? {name:'warning',
-            type:'material-icons', color:'rgb(255,204,51)'} :
-            {name:'error',
-            type:'material-icons',
-            color:'rgb(228,66,4)'}
-            }
-            rounded
-            size='large'
-            containerStyle={{ position: 'absolute', top: -30, right: -30}}
-          />*/}
           </React.Fragment>
         </View>
       </TouchableOpacity>
