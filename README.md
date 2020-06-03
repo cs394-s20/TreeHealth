@@ -1,5 +1,9 @@
 # Tree Health Team Handoff
 
+## What is TreeHealth
+
+TreeHealth is a mobile based application that aims to provide homeowners with early notifications or warnings to health risks potentially affecting their trees.
+
 ## How to download and install code
 
 - Follow this [tutorial](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) to download a local copy of the TreeHealth repository.
@@ -25,20 +29,24 @@ npm start
 
 ```
 
-- The first command will install all the dependicies required by the app and the second command will start the simulator. After running these commands you should be redirected to the Expo webbrowser where you will want to click "Run iOS Simulator" or "Run Android Simulator" depedning on your machine's operating system. You will see a mock phone pop up and the TreeHealth app will begin to download.
+- The first command will install all the dependencies required by the app and the second command will start the simulator. After running these commands you should be redirected to the Expo webbrowser where you will want to click "Run iOS Simulator" or "Run Android Simulator" depending on your machine's operating system. You will see a mock phone pop up and the TreeHealth app will begin to download.
 
 You can now interact with the app as normal.
 
 ## How To Build And Deploy The App
 
+### Firebase
+
+We use Firebase to upload and deploy functional versions of the application. When building this app, we used our own personal keys and Firebase set up, however, now that we are handing this off we will provide instructions for your team to set up your own Firebase configuration.
+
 ## Platform Constraints, Both for Development and Deployment:
 
-Since we are using React Native, sometimes there are discrepnscies between functions/packages used for the iOS software versus the windows software. This leads to some UI/visual elements changing based on which software you are using. However, it should never effect the functionality of the app.
+Since we are using React Native, sometimes there are discrepancies between functions/packages used for the iOS software versus the windows software. This leads to some UI/visual elements changing based on which software you are using. However, it should never affect the functionality of the app.
 
 ## Known Bugs and Issues:
 
-Currently there is a wanring present within that app that begins with:
+Currently there is a warning present within that app that begins with:
 
 > Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in %s.%s, a useEffect cleanup function
 
-This warning is associated with the camera function, however, it does not interfere with any of the application's functionalities or capabilites. The app still works the same with this warning.
+This warning is associated with the camera function, however, it does not interfere with any of the application's functionalities or capabilities. The app still works the same with this warning.
