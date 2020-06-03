@@ -26,7 +26,7 @@ const chartConfig = {
   },
 };
 
-const TreeChart = ({ data, zero}) => {
+const TreeChart = ({ data, zero, showVerticalLabels}) => {
   let testdata = JSON.parse(JSON.stringify(data));
   const maxValue = {data: [10], color: () => `rgba(0, 0, 0, 0)` }
   testdata.datasets.push(maxValue)
@@ -41,6 +41,7 @@ const TreeChart = ({ data, zero}) => {
         bezier
         style={{ marginBottom: -20 }}
         fromZero={zero}
+        withHorizontalLabels={showVerticalLabels}
         xLabelsOffset={10}
         verticalLabelRotation={-45}
       />

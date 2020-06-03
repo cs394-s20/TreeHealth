@@ -63,7 +63,7 @@ const MoreGraphsPage = ({ route, navigation }) => {
             color="rgb(86,140,201)"
           />
         </View>
-        <TreeChart data={HIData} zero={false} />
+        <TreeChart data={HIData} zero={false} showYLabels = {false}/>
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text
@@ -89,7 +89,7 @@ const MoreGraphsPage = ({ route, navigation }) => {
             color="rgb(86,140,201)"
           />
         </View>
-        <TreeChart data={sapFlowData} zero={true} />
+        <TreeChart data={sapFlowData} zero={true} showYLabels={true} />
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Text
@@ -115,7 +115,7 @@ const MoreGraphsPage = ({ route, navigation }) => {
             color="rgb(86,140,201)"
           />
         </View>
-        <TreeChart data={VPDData} zero={true} />
+        <TreeChart data={VPDData} zero={true} showYLabels={true} />
       </View>
     </ScrollView>
   );

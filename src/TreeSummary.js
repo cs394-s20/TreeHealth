@@ -424,7 +424,7 @@ function DetailsScreen({ route, navigation }) {
             />
           </View>
           <View></View>
-          <TreeChart data={HIData} zero={false} />
+          <TreeChart data={HIData} zero={false} showYLabels={false}/>
           <Text style={{ marginBottom: 30, marginTop: 30 }}>
             {HIstartDate} - {HIendDate}
           </Text>
