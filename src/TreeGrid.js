@@ -1,4 +1,3 @@
-import { Component } from "react";
 import {
   StyleSheet,
   View,
@@ -7,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, Component } from "react";
 import TreeCircle from "./TreeCircle";
 
 const TreeGrid = ({ treesData, navigation }) => {
@@ -20,7 +19,6 @@ const TreeGrid = ({ treesData, navigation }) => {
       renderItem={({ item }) => (
         <TreeCircle treeData={item} navigation={navigation}></TreeCircle>
       )}
-      //Setting the number of column
       numColumns={2}
       keyExtractor={(item, index) => index.toString()}
     />

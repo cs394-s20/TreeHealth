@@ -6,20 +6,6 @@ import { Icon } from "react-native-elements";
 import Accordion from "react-native-collapsible/Accordion";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const styles = StyleSheet.create({
-  header: {
-    margin: 10,
-    marginBottom: 5,
-  },
-  headerText: {
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-  content: {
-    margin: 10,
-  },
-});
-
 const MoreGraphsPage = ({ route, navigation }) => {
   const {
     HIData,

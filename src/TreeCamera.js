@@ -23,44 +23,11 @@ import * as MediaLibrary from "expo-media-library";
 const { width: winWidth, height: winHeight } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
-    preview: {
-        height: winHeight,
-        width: winWidth,
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        right: 0,
-        bottom: 0,
-    },
-    alignCenter: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     bottomToolbar: {
         width: winWidth,
         position: 'absolute',
         height: 100,
         bottom: 0,
-    },
-    captureBtn: {
-        width: 60,
-        height: 60,
-        borderWidth: 2,
-        borderRadius: 60,
-        borderColor: "#FFFFFF",
-    },
-    captureBtnActive: {
-        width: 80,
-        height: 80,
-    },
-    captureBtnInternal: {
-        width: 76,
-        height: 76,
-        borderWidth: 2,
-        borderRadius: 76,
-        backgroundColor : "red",
-        borderColor: "transparent",
     },
     galleryContainer: {
         bottom: 100
@@ -82,8 +49,6 @@ const TreeCamera = ({route, navigation}) => {
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   let cameraRef = useRef(null);
   let serialNumber = route.params.serialNumber;
-  // console.log('test')
-  // console.log(serialNumber)
 
   useEffect(() => {
     getPermissionAsync();
@@ -111,29 +76,24 @@ const TreeCamera = ({route, navigation}) => {
   };
 
   const takePicture = async () => {
-    //console.log("haha")
     if (cameraRef) {
-      //console.log((await cameraRef.current.getAvailablePictureSizesAsync(""))[0])
       const options = { quality: 0.1, base64: true};
 
       let photo = await cameraRef.current.takePictureAsync(options);
       setCaptures([photo, ...captures]);
       MediaLibrary.saveToLibraryAsync(photo.uri);
-      // console.log(photo.url);
-      //console.log(photo.uri);
+
       const blob = await (await fetch(photo.uri)).blob();
-      
       var storageRef = firebase.storage().ref();
       var name = new Date().getTime().toString()+'.jpg';
       storageRef.child(name).put(blob, {
         contentType: 'image/jpeg'
       }).then(() => {
         var dbRef = firebase.database().ref();
+
         const fetchimage = (snapshot) => {
-          // dbRef.off("value",fetchimage)
           if(snapshot.val()){
             var allTrees = snapshot.val().trees;
-            //console.log(snapshot.val().trees)
             for (var i = 0; i < allTrees.length; i++){
               if (allTrees[i].serialNumber === serialNumber){
                 dbRef.child('trees').child(i).child('imagePath').set(name);
@@ -143,6 +103,7 @@ const TreeCamera = ({route, navigation}) => {
           }
           dbRef.off("value",fetchimage)
         }
+
         // Attach an asynchronous callback to read the data at our posts reference
         dbRef.on("value", fetchimage,
         function (errorObject) {
@@ -158,33 +119,32 @@ const TreeCamera = ({route, navigation}) => {
     let photo = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
-      const blob = await (await fetch(photo.uri)).blob();
-      
-      var storageRef = firebase.storage().ref();
-      var name = new Date().getTime().toString()+'.jpg';
-      storageRef.child(name).put(blob, {
-        contentType: 'image/jpeg'
-      }).then(() => {
-        var dbRef = firebase.database().ref();
-        const fetchimage = (snapshot) => {
-          // dbRef.off("value",fetchimage)
-          if(snapshot.val()){
-            var allTrees = snapshot.val().trees;
-            //console.log(snapshot.val().trees)
-            for (var i = 0; i < allTrees.length; i++){
-              if (allTrees[i].serialNumber === serialNumber){
-                dbRef.child('trees').child(i).child('imagePath').set(name);
-                break;
-              }
+    const blob = await (await fetch(photo.uri)).blob();
+    var storageRef = firebase.storage().ref();
+    var name = new Date().getTime().toString()+'.jpg';
+    storageRef.child(name).put(blob, {
+      contentType: 'image/jpeg'
+    }).then(() => {
+      var dbRef = firebase.database().ref();
+
+      const fetchimage = (snapshot) => {
+        if(snapshot.val()){
+          var allTrees = snapshot.val().trees;
+          for (var i = 0; i < allTrees.length; i++){
+            if (allTrees[i].serialNumber === serialNumber){
+              dbRef.child('trees').child(i).child('imagePath').set(name);
+              break;
             }
           }
-          dbRef.off("value",fetchimage)
         }
-        // Attach an asynchronous callback to read the data at our posts reference
-        dbRef.on("value", fetchimage,
-        function (errorObject) {
-          console.log("The read failed: " + errorObject.code);
-        });
+        dbRef.off("value",fetchimage)
+      }
+
+      // Attach an asynchronous callback to read the data at our posts reference
+      dbRef.on("value", fetchimage,
+      function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
     });
   };
 

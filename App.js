@@ -1,12 +1,10 @@
 import { StyleSheet, View } from "react-native";
 import React, { useState, useEffect} from "react";
 import firebase from './src/firebase';
-// import treesData from "./csv_converstion_script/treesJSON.json";
 import TreeGrid from "./src/TreeGrid";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import DetailsScreen from "./src/TreeSummary";
-import HelpPage from "./src/HelpPage";
 import TreeCamera from "./src/TreeCamera";
 import MoreGraphsPage from "./src/MoreGraphsPage";
 
@@ -14,8 +12,6 @@ import MoreGraphsPage from "./src/MoreGraphsPage";
 const db = firebase.database().ref();
 
 const App = () => {
-
-
   const [treeData, setTreeData] = useState({trees:[]});
 
   useEffect(() => {
@@ -50,7 +46,6 @@ const App = () => {
       <Stack.Navigator>
         <Stack.Screen name="My Forest" component={HomeScreen} />
         <Stack.Screen name="Health Summary" component={DetailsScreen} />
-        <Stack.Screen name="HelpPage" component={HelpPage} />
         <Stack.Screen name="Camera" component={TreeCamera} />
         <Stack.Screen name="More" component={MoreGraphsPage} />
       </Stack.Navigator>

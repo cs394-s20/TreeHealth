@@ -8,9 +8,9 @@ import {
   ActivityIndicator,
   Image,
   TouchableOpacity,
+  Dimensions
 } from "react-native";
 import { LineChart, SafeAreaView, ScrollView } from "react-native-chart-kit";
-import { Dimensions } from "react-native";
 
 const screenWidth = Dimensions.get("window").width;
 

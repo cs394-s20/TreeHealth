@@ -16,11 +16,6 @@ import firebase from "./firebase";
 import TreeCamera from "./TreeCamera";
 
 const styles = StyleSheet.create({
-  imageThumbnail: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: 100,
-  },
   unhealthy_circle: {
     width: 150,
     height: 150,
@@ -44,14 +39,6 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: "rgb(188,213,184)",
     justifyContent: "center",
-  },
-  name: {
-    textAlign: "center",
-    fontSize: 25,
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 10,
   },
   scrollView: {
     backgroundColor: "white",
@@ -116,7 +103,6 @@ const constructData = (treeData, datatype, viewtype) => {
         )
       );
     }
-    console.log(labels.length);
   }
 
   // Month View
