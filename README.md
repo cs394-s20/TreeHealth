@@ -67,7 +67,7 @@ Running
 ```
 npm audit
 ```
-will show 9 low severity vulnerabilities associated with the mem and yargs-parser packages that are dependencies for some packages that are outdated. It is not possible to update these packages at this time because the latest version is not compatible with the functionalities in place for the app. 
+will show 9 low severity vulnerabilities associated with the mem and yargs-parser packages that are dependencies for some packages that are outdated (react-native). It is not possible to update these packages at this time because the latest version is not compatible with the functionalities in place for the app. 
 
 Running
 ```
