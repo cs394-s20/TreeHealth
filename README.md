@@ -62,3 +62,18 @@ Currently there is a warning present within that app that begins with:
 > Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in %s.%s, a useEffect cleanup function
 
 This warning is associated with the camera function, however, it does not interfere with any of the application's functionalities or capabilities. The app still works the same with this warning.
+
+Running 
+```
+npm audit
+```
+will show 9 low severity vulnerabilities associated with the mem and yargs-parser packages that are dependencies for some packages that are outdated. It is not possible to update these packages at this time because the latest version is not compatible with the functionalities in place for the app. 
+
+Running
+```
+npm outdated
+```
+will show the following packages: 
+react-native current: 0.61.4
+react-native-safe-area-context: 1.0.2
+
