@@ -11,9 +11,9 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/healthy_tree.png",
+      "image": "./assets/sappi.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#a4d45c"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
