@@ -43,19 +43,13 @@ We use a platform called Firebase, a cloud storage system. When building this ap
 
 -You will now have to link the Firebase project you created to the app. You can follow [this tutorial](https://courses.cs.northwestern.edu/394/firebase-notes.php#cli)
 
--Since the app is already connected to another Firebase project you will need it to switch to the one you have created. You can do this by running the following command in terminal within the project folder.
-
-```
-
-firebase use <project_id>
-
-```
-
 ## Platform Constraints, Both for Development and Deployment:
 
 Since we are using React Native, sometimes there are discrepancies between functions/packages used for the iOS platform versus the Android platform. This leads to some UI/visual elements changing based on which platform you are using. However, it should never affect the functionality of the app.
 
 ## Known Bugs and Issues:
+
+### Issue 1
 
 Currently there is a warning present within that app that begins with:
 
@@ -63,17 +57,22 @@ Currently there is a warning present within that app that begins with:
 
 This warning is associated with the camera function, however, it does not interfere with any of the application's functionalities or capabilities. The app still works the same with this warning.
 
-Running 
+### Issue 2
+
+Running
+
 ```
 npm audit
 ```
-will show 9 low severity vulnerabilities associated with the mem and yargs-parser packages that are dependencies for some packages that are outdated (react-native). It is not possible to update these packages at this time because the latest version is not compatible with the functionalities in place for the app. 
+
+will show 9 low severity vulnerabilities associated with the mem and yargs-parser packages that are dependencies for some packages that are outdated (react-native). It is not possible to update these packages at this time because the latest version is not compatible with the functionalities in place for the app.
 
 Running
+
 ```
 npm outdated
 ```
-will show the following packages: 
+
+will show the following packages:
 react-native current: 0.61.4
 react-native-safe-area-context: 1.0.2
-
